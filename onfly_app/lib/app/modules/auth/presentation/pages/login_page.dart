@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:onfly_design_system/onfly_design_system.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
