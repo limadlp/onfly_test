@@ -131,6 +131,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.16.0"
+  onfly_design_system:
+    dependency: "direct main"
+    description:
+      path: "../onfly_design_system"
+      relative: true
+    source: path
+    version: "0.0.1"
   path:
     dependency: transitive
     description:

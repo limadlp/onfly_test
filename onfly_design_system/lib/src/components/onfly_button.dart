@@ -39,6 +39,7 @@ class OnflyButton extends StatelessWidget {
         textStyle: OnflyTypography.bodyLG,
         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        foregroundColor: Colors.white,
       ),
       onPressed: type == ButtonType.disabled ? null : onPressed,
       child: Text(label),

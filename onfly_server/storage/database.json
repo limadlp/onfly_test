@@ -1,0 +1,69 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "João Silva",
+      "email": "joao@email.com",
+      "password": "123456"
+    },
+    {
+      "id": "2",
+      "name": "Maria Oliveira",
+      "email": "maria@email.com",
+      "password": "senha123"
+    },
+    {
+      "id": "3",
+      "name": "Carlos Souza",
+      "email": "carlos@email.com",
+      "password": "abc123"
+    }
+  ],
+  "expenses": [
+    {
+      "id": "101",
+      "userId": "1",
+      "date": "2025-03-10T12:00:00Z",
+      "value": 150.5,
+      "category": "Transporte",
+      "description": "Táxi do aeroporto para o hotel",
+      "isSynced": true
+    },
+    {
+      "id": "102",
+      "userId": "1",
+      "date": "2025-03-11T08:30:00Z",
+      "value": 45.9,
+      "category": "Alimentação",
+      "description": "Café da manhã no hotel",
+      "isSynced": false
+    },
+    {
+      "id": "103",
+      "userId": "2",
+      "date": "2025-03-09T15:30:00Z",
+      "value": 75.0,
+      "category": "Alimentação",
+      "description": "Almoço de negócios",
+      "isSynced": true
+    },
+    {
+      "id": "104",
+      "userId": "3",
+      "date": "2025-03-12T20:00:00Z",
+      "value": 200.0,
+      "category": "Hospedagem",
+      "description": "Diária de hotel",
+      "isSynced": true
+    },
+    {
+      "id": "105",
+      "userId": "3",
+      "date": "2025-03-13T14:45:00Z",
+      "value": 30.0,
+      "category": "Transporte",
+      "description": "Uber para reunião",
+      "isSynced": false
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+name: onfly_api
+description: A sample command-line application.
+version: 1.0.0
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ^3.7.0
+
+# Add regular dependencies here.
+dependencies:
+  crypto: ^3.0.6
+  hive: ^2.2.3
+  jaguar_jwt: ^3.0.0
+  path_provider: ^2.0.15
+  shelf: ^1.4.2
+  shelf_router: ^1.1.4
+
+  # path: ^1.8.0
+
+dev_dependencies:
+  build_runner: ^2.4.15
+  lints: ^5.0.0
+  test: ^1.24.0

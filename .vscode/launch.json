@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "onfly_app",
+            "cwd": "onfly_app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "onfly_app (profile mode)",
+            "cwd": "onfly_app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "onfly_app (release mode)",
+            "cwd": "onfly_app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "onfly_design_system",
+            "cwd": "onfly_design_system",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "onfly_design_system (profile mode)",
+            "cwd": "onfly_design_system",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "onfly_design_system (release mode)",
+            "cwd": "onfly_design_system",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
