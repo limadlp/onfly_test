@@ -130,6 +130,42 @@ flutter run
 
 ---
 
+# 🧪 Testing Guide
+
+This project follows the **Clean Architecture** principles and uses **Flutter Modular** for dependency injection. Our testing strategy ensures that each layer is properly tested, avoiding tight coupling between components.
+
+## 🔹 What is Tested?
+
+We use **unit tests** to validate the correctness of our application's core logic. The following table summarizes the **Clean Architecture layers** and what we test in each one:
+
+| **Layer**                    | **What is tested?**                                         |
+| ---------------------------- | ----------------------------------------------------------- |
+| **Data (Datasource)**        | Ensures that API calls return the expected data             |
+| **Domain (UseCases)**        | Validates that business logic is correctly executed         |
+| **Repository**               | Checks if repositories correctly interact with datasources  |
+| **Cubit (State Management)** | Verifies if states are correctly emitted during operations  |
+| **UI (Optional)**            | Ensures that UI components display correctly (widget tests) |
+
+## 🛠️ Testing Tools
+
+We use **Mocktail** to create test doubles instead of real dependencies. Unlike **Mockito**, Mocktail does **not require code generation** (`build_runner`), making it simpler and faster to use.
+
+### 📌 Why **Mocktail**?
+
+- No need to run `flutter pub run build_runner build`
+- More flexible and easier to use than Mockito
+- Works perfectly with **Flutter Bloc** and **Cubit**
+
+## 🏃 Running the Tests
+
+To execute the tests, simply run:
+
+```bash
+flutter test
+This will run all unit tests and verify if the code is working as expected.
+
+---
+
 ## 👥 Contributors
 
 - **[Dan Lima]** - Dart/Flutter Developer
@@ -145,6 +181,8 @@ This project is licensed under the **MIT License**.
 ## 📩 Contact
 
 For questions or support, reach out to **dlplima@hotmail.com**.
+
+```
 
 ```
 
