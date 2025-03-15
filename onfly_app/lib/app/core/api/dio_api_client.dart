@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:onfly_app/app/core/api/api_client.dart';
-import '../constants/api_url.dart';
+import 'package:onfly_app/app/core/constants/api_url.dart';
 
 class DioApiClient implements ApiClient {
   final Dio _dio = Dio(

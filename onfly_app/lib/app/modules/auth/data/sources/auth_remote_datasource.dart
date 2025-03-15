@@ -1,7 +1,6 @@
 import 'package:onfly_app/app/core/api/api_client.dart';
 import 'package:onfly_app/app/core/constants/api_url.dart';
 import 'package:onfly_app/app/modules/auth/data/models/auth_response_model.dart';
-import 'package:onfly_app/app/modules/auth/data/models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<AuthResponseModel> signin(String email, String password);

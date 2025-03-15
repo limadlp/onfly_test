@@ -1,6 +1,3 @@
-import 'package:dio/dio.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-
 // class AuthInterceptor extends Interceptor {
 //   @override
 //   Future onRequest(

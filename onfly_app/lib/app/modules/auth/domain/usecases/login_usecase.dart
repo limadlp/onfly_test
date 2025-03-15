@@ -1,4 +1,3 @@
-import 'package:onfly_app/app/modules/auth/domain/entities/user_entity.dart';
 import 'package:onfly_app/app/modules/auth/domain/repositories/auth_repository.dart';
 
 class SigninUseCase {

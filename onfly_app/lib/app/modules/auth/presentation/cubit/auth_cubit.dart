@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:onfly_app/app/modules/auth/domain/usecases/login_usecase.dart';
 
-import 'auth_state.dart';
+import 'package:onfly_app/app/modules/auth/presentation/cubit/auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final SigninUseCase signinUseCase;
@@ -14,7 +15,7 @@ class AuthCubit extends Cubit<AuthState> {
       await signinUseCase(email, password);
       emit(AuthSuccess());
     } catch (e) {
-      print(e.toString());
+      Logger().e(e);
       emit(AuthError(e.toString()));
     }
   }

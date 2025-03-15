@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/auth_cubit.dart';
-import '../cubit/auth_state.dart';
+import 'package:onfly_app/app/modules/auth/presentation/cubit/auth_cubit.dart';
+import 'package:onfly_app/app/modules/auth/presentation/cubit/auth_state.dart';
 
 class LoginPage extends StatelessWidget {
   final emailController = TextEditingController();
@@ -31,16 +31,16 @@ class LoginPage extends StatelessWidget {
               children: [
                 TextField(
                   controller: emailController,
-                  decoration: InputDecoration(labelText: 'Email'),
+                  decoration: const InputDecoration(labelText: 'Email'),
                 ),
                 TextField(
                   controller: passwordController,
                   obscureText: true,
-                  decoration: InputDecoration(labelText: 'Senha'),
+                  decoration: const InputDecoration(labelText: 'Senha'),
                 ),
                 const SizedBox(height: 16),
                 state is AuthLoading
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : ElevatedButton(
                       onPressed: () {
                         context.read<AuthCubit>().signin(
@@ -48,7 +48,7 @@ class LoginPage extends StatelessWidget {
                           passwordController.text,
                         );
                       },
-                      child: Text('Login'),
+                      child: const Text('Login'),
                     ),
               ],
             ),
