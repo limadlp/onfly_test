@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 class DatabaseHelper {
-  static final String _dbFile =
-      '${Directory.current.path}/storage/database.json';
+  final String _dbFile = '${Directory.current.path}/storage/database.json';
 
-  static Future<Map<String, dynamic>> _readDatabase() async {
+  Future<Map<String, dynamic>> _readDatabase() async {
     final file = File(_dbFile);
 
     if (!await file.exists()) {
@@ -16,7 +15,7 @@ class DatabaseHelper {
     return jsonDecode(content);
   }
 
-  static Future<void> _writeDatabase(Map<String, dynamic> data) async {
+  Future<void> _writeDatabase(Map<String, dynamic> data) async {
     final file = File(_dbFile);
     await file.writeAsString(jsonEncode(data, toEncodable: _jsonEncodeHelper));
   }
@@ -26,14 +25,12 @@ class DatabaseHelper {
     return item;
   }
 
-  static Future<List<Map<String, dynamic>>> getCollection(
-    String collection,
-  ) async {
+  Future<List<Map<String, dynamic>>> getCollection(String collection) async {
     final db = await _readDatabase();
     return List<Map<String, dynamic>>.from(db[collection] ?? []);
   }
 
-  static Future<void> addToCollection(
+  Future<void> addToCollection(
     String collection,
     Map<String, dynamic> item,
   ) async {
@@ -42,7 +39,7 @@ class DatabaseHelper {
     await _writeDatabase(db);
   }
 
-  static Future<void> updateCollection(
+  Future<void> updateCollection(
     String collection,
     String id,
     Map<String, dynamic> newItem,
@@ -60,7 +57,7 @@ class DatabaseHelper {
     }
   }
 
-  static Future<void> deleteFromCollection(String collection, String id) async {
+  Future<void> deleteFromCollection(String collection, String id) async {
     final db = await _readDatabase();
     db[collection] =
         (db[collection] as List).where((item) => item['id'] != id).toList();
