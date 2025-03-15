@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:onfly_app/app/app_routes.dart';
+import 'package:onfly_app/app/core/constants/app_routes.dart';
 
 class BottomBarWidget extends StatefulWidget {
   const BottomBarWidget({super.key});

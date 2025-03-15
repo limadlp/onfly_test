@@ -1,20 +1,27 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:onfly_app/app/core/ui/widgets/bottom_bar_widget.dart';
+import 'package:onfly_app/app/core/api/api_client.dart';
+import 'package:onfly_app/app/core/api/dio_api_client.dart';
+import 'package:onfly_app/app/core/constants/app_routes.dart';
+import 'package:onfly_app/app/core/storage/storage_service.dart';
+import 'package:onfly_app/app/home_page.dart';
 import 'package:onfly_app/app/modules/auth/auth_module.dart';
 
 class AppModule extends Module {
   @override
-  void binds(Injector i) {
-    //i.addSingleton<ThemeController>(ThemeController.new);
+  void binds(i) {
+    //i.addSingleton<ApiClient>(() => DioApiClient());
+    i.addSingleton<StorageService>(StorageService.new);
+    //i.addSingleton<ApiClient>((i) => DioApiClient());
   }
 
   @override
   void routes(r) {
-    r.module('/', module: AuthModule());
-
+    r.module(AppRoutes.auth, module: AuthModule());
     r.child(
-      '/home/',
-      child: (context) => const BottomBarWidget(),
+      AppRoutes.home,
+      child: (context) => const HomePage(),
+      //child: (context) => const BottomBarWidget(),
+      guards: [AuthGuard()],
       children: [
         // ModuleRoute(
         //   AppRoutes.expenses,
@@ -52,5 +59,22 @@ class AppModule extends Module {
     //     },
     //   ),
     // );
+
+    // Definir a rota inicial para '/auth/'
+    //r.redirect(Modular.initialRoute, to: AppRoutes.auth);
+  }
+}
+
+class AuthGuard extends RouteGuard {
+  AuthGuard() : super(redirectTo: AppRoutes.auth);
+  @override
+  Future<bool> canActivate(String path, ModularRoute router) async {
+    final storage = Modular.get<StorageService>();
+    final token = await storage.getToken();
+    print("tokeeeeeen: $token");
+    if (token == null) {
+      return false;
+    }
+    return true;
   }
 }

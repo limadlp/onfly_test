@@ -9,7 +9,9 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: Modular.routerConfig,
+      //routerConfig: Modular.routerConfig,
+      routeInformationParser: Modular.routeInformationParser,
+      routerDelegate: Modular.routerDelegate,
       title: 'Onfly',
       theme: OnflyTheme.light,
       scrollBehavior: CustomScrollBehavior(),
