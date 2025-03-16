@@ -5,7 +5,7 @@ import 'package:shelf/shelf_io.dart' as io;
 
 void main() async {
   // Set up middleware and routing
-  final handler = Pipeline()
+  final handler = const Pipeline()
       .addMiddleware(logRequests()) // Logs all incoming requests
       .addHandler(setupRoutes().call); // Handles routing
 

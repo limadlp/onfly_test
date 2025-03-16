@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:onfly_api/utils/image_service.dart';
 import 'package:shelf/shelf.dart';
-import '../services/expense_service.dart';
-import '../models/expense_model.dart';
+import 'package:onfly_api/services/expense_service.dart';
+import 'package:onfly_api/models/expense_model.dart';
 
 class ExpenseController {
   final ExpenseService _expenseService = ExpenseService();

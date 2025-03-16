@@ -1,5 +1,5 @@
-import '../utils/database_helper.dart';
-import '../models/user_model.dart';
+import 'package:onfly_api/utils/database_helper.dart';
+import 'package:onfly_api/models/user_model.dart';
 
 class AuthRepository {
   final DatabaseHelper _dbHelper = DatabaseHelper();

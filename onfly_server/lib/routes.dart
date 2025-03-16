@@ -1,8 +1,8 @@
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf/shelf.dart';
-import 'controllers/auth_controller.dart';
-import 'controllers/expense_controller.dart';
-import 'utils/auth_middleware.dart';
+import 'package:onfly_api/controllers/auth_controller.dart';
+import 'package:onfly_api/controllers/expense_controller.dart';
+import 'package:onfly_api/utils/auth_middleware.dart';
 
 Router setupRoutes() {
   final router = Router();
@@ -24,7 +24,9 @@ Router setupRoutes() {
   // Apply authentication middleware only to /expenses
   router.mount(
     '/expenses',
-    Pipeline().addMiddleware(authenticateRequests()).addHandler(expenseRouter),
+    const Pipeline()
+        .addMiddleware(authenticateRequests())
+        .addHandler(expenseRouter.call),
   );
 
   return router;

@@ -1,7 +1,7 @@
 import 'package:onfly_api/repositories/auth_repository.dart';
 
-import '../models/user_model.dart';
-import '../utils/jwt_service.dart';
+import 'package:onfly_api/models/user_model.dart';
+import 'package:onfly_api/utils/jwt_service.dart';
 
 class AuthService {
   final AuthRepository _authRepository = AuthRepository();

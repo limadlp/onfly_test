@@ -8,7 +8,7 @@ class JwtService {
       issuer: 'api.local',
       subject: email,
       expiry: DateTime.now().add(
-        Duration(hours: 2),
+        const Duration(hours: 2),
       ), // Token expires in 2 hours
     );
     return issueJwtHS256(claimSet, _secretKey);

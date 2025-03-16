@@ -1,5 +1,5 @@
-import '../utils/database_helper.dart';
-import '../models/expense_model.dart';
+import 'package:onfly_api/utils/database_helper.dart';
+import 'package:onfly_api/models/expense_model.dart';
 
 class ExpenseRepository {
   final DatabaseHelper _dbHelper = DatabaseHelper();

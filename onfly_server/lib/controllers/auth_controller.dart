@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:shelf/shelf.dart';
-import '../services/auth_service.dart';
+import 'package:onfly_api/services/auth_service.dart';
 
 class AuthController {
   final AuthService _authService = AuthService();
