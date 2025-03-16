@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:onfly_app/app/core/constants/app_routes.dart';
+import 'package:onfly_app/app/core/storage/storage_service.dart';
+import 'package:onfly_design_system/onfly_design_system.dart';
 
 class BottomBarWidget extends StatefulWidget {
   const BottomBarWidget({super.key});
@@ -51,6 +53,18 @@ class _BottomBarWidgetState extends State<BottomBarWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Onfly', style: OnflyTypography.titleXL),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              Modular.get<StorageService>().clearToken();
+              Modular.to.navigate(AppRoutes.auth);
+            },
+          ),
+        ],
+      ),
       body: const RouterOutlet(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -60,16 +74,19 @@ class _BottomBarWidgetState extends State<BottomBarWidget> {
           });
           Modular.to.navigate(_routes[index]);
         },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_basket_outlined),
-            label: 'Shoplist',
+        items: [
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.receipt_outlined),
+            label: 'Despesas',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.credit_card_outlined),
+            label: 'Cartões',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.airplane_ticket_outlined),
+            label: 'Passagens',
+          ),
         ],
       ),
     );
