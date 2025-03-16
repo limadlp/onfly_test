@@ -1,3 +1,4 @@
+import 'package:onfly_app/app/core/errors/exceptions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class StorageService {
@@ -7,30 +8,41 @@ abstract class StorageService {
 }
 
 class SharedPrefsStorageService implements StorageService {
-  static const String _tokenKey = 'access_token';
+  static const String _tokenKey = 'auth_token';
 
   @override
   Future<void> saveToken(String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_tokenKey, token);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_tokenKey, token);
+    } catch (e) {
+      throw StorageException('Failed to save token');
+    }
   }
 
   @override
   Future<String?> getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_tokenKey);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString(_tokenKey);
+    } catch (e) {
+      throw StorageException('Failed to retrieve token');
+    }
   }
 
   @override
   Future<void> clearToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_tokenKey);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_tokenKey);
+    } catch (e) {
+      throw StorageException('Failed to clear token');
+    }
   }
 }
 
-
 // With Flutter Secure Storage
-// Only works on Android and IOS Platforms
+// But it only works on Android and iOS platforms
 // class FlutterSecureStorageService implements StorageService {
 //   final FlutterSecureStorage storage = const FlutterSecureStorage();
 //   String? _accessToken;

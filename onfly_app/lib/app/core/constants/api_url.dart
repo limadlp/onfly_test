@@ -3,7 +3,7 @@ class ApiUrl {
 
   static const apiV = 'api/v1/';
 
-  static const String signin = '${baseUrl}login';
+  static const String signin = '${baseUrl}auth/signin';
 
   static const String signup = '$baseUrl${apiV}auth/signup';
   //static const String signin = '$baseUrl${apiV}auth/signin';
