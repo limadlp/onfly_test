@@ -17,6 +17,12 @@
       "name": "Carlos Souza",
       "email": "carlos@email.com",
       "password": "abc123"
+    },
+    {
+      "id": "1742077962744",
+      "name": "John Doe",
+      "email": "john.doe@email.com",
+      "password": "securepassword"
     }
   ],
   "expenses": [
@@ -64,6 +70,16 @@
       "category": "Transporte",
       "description": "Uber para reunião",
       "isSynced": false
+    },
+    {
+      "id": "1742079026063",
+      "userId": "joao@email.com",
+      "date": "2025-03-14T14:30:00.000Z",
+      "value": 120.75,
+      "category": "Food",
+      "description": "Dinner at a restaurant",
+      "isSynced": false,
+      "receiptPath": "/home/danrispar/Flutter/onfly/onfly_test/onfly_server/storage/receipts/pan.jpg"
     }
   ]
 }
