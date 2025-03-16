@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:onfly_api/utils/json_response.dart';
 import 'package:shelf/shelf.dart';
 import 'package:onfly_api/services/auth_service.dart';
 
@@ -17,7 +18,7 @@ class AuthController {
       return Response.forbidden(jsonEncode({'error': 'User already exists'}));
     }
 
-    return Response.ok(jsonEncode({'message': 'User created successfully'}));
+    return jsonResponse({'message': 'User created successfully'});
   }
 
   Future<Response> signIn(Request request) async {
@@ -31,6 +32,6 @@ class AuthController {
       return Response.forbidden(jsonEncode({'error': 'Invalid credentials'}));
     }
 
-    return Response.ok(jsonEncode({'token': token}));
+    return jsonResponse({'token': token});
   }
 }
