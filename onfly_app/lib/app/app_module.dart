@@ -18,7 +18,7 @@ class AppModule extends Module {
     r.module(AppRoutes.auth, module: AuthModule());
     r.child(
       AppRoutes.home,
-      child: (context) => const HomePage(),
+      child: (context) => HomePage(),
       //child: (context) => const BottomBarWidget(),
       guards: [AuthGuard()],
       children: [
