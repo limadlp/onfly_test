@@ -81,7 +81,7 @@ class _LoginFormState extends State<LoginForm> {
       builder: (context, state) {
         return Container(
           decoration: const BoxDecoration(
-            color: Colors.white,
+            //color: Colors.white,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(32),
               topRight: Radius.circular(32),

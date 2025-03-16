@@ -37,7 +37,7 @@ class AuthModule extends Module {
                   signupUsecase: Modular.get<SignupUsecase>(),
                   signoutUsecase: Modular.get<SignoutUsecase>(),
                 ),
-            child: LoginPage(),
+            child: const LoginPage(),
           ),
     );
   }
