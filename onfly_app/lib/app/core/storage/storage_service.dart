@@ -42,7 +42,7 @@ class SharedPrefsStorageService implements StorageService {
 }
 
 // With Flutter Secure Storage
-// But it only works on Android and iOS platforms
+// But it only works properly on Android and iOS platforms
 // class FlutterSecureStorageService implements StorageService {
 //   final FlutterSecureStorage storage = const FlutterSecureStorage();
 //   String? _accessToken;
