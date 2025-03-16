@@ -1,16 +1,17 @@
 import 'package:flutter_modular/flutter_modular.dart';
+
 import 'package:onfly_app/app/core/constants/app_routes.dart';
+import 'package:onfly_app/app/core/core_module.dart';
 import 'package:onfly_app/app/core/storage/storage_service.dart';
 import 'package:onfly_app/app/home_page.dart';
 import 'package:onfly_app/app/modules/auth/auth_module.dart';
 
 class AppModule extends Module {
   @override
-  void binds(i) {
-    //i.addSingleton<ApiClient>(() => DioApiClient());
-    i.addSingleton<StorageService>(StorageService.new);
-    //i.addSingleton<ApiClient>((i) => DioApiClient());
-  }
+  List<Module> get imports => [CoreModule()];
+
+  @override
+  void binds(i) {}
 
   @override
   void routes(r) {
