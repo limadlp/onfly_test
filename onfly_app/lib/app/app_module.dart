@@ -42,25 +42,6 @@ class AppModule extends Module {
         ),
       ],
     );
-    // r.child(
-    //   '/list_items/:slug', // 🔥 Definição da rota dinâmica
-    //   child: (context) {
-    //     final slug = Modular.args.params['slug']!; // 🔥 Obtendo o slug
-    //     final list =
-    //         Modular.args.data
-    //             as Map<String, dynamic>?; // 🔥 Pegando os dados extras
-
-    //     return ListItemsPage(
-    //       slug: slug,
-    //       list: list ?? {}, // Se `list` for nulo, passa um mapa vazio
-    //     );
-    //   },
-    //   customTransition: CustomTransition(
-    //     transitionBuilder: (context, animation, secondaryAnimation, child) {
-    //       return child; // 🔥 Sem animação
-    //     },
-    //   ),
-    // );
 
     // Definir a rota inicial para '/auth/'
     //r.redirect(Modular.initialRoute, to: AppRoutes.auth);

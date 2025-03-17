@@ -4,6 +4,7 @@ import 'package:onfly_app/app/core/constants/app_routes.dart';
 import 'package:onfly_app/app/core/storage/storage_service.dart';
 import 'package:onfly_design_system/onfly_design_system.dart';
 
+//TODO: Criar um base módulo?
 class BottomBarWidget extends StatefulWidget {
   const BottomBarWidget({super.key});
 
@@ -54,7 +55,7 @@ class _BottomBarWidgetState extends State<BottomBarWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Onfly', style: OnflyTypography.titleXL),
+        title: Text('Onfly', style: OnflyTypography.titleXL),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -81,7 +82,7 @@ class _BottomBarWidgetState extends State<BottomBarWidget> {
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.credit_card_outlined),
-            label: 'Cartões',
+            label: 'Cartão',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.airplane_ticket_outlined),

@@ -8,7 +8,7 @@ import 'package:onfly_app/app/core/storage/storage_service.dart';
 
 class DioInterceptor extends Interceptor {
   final StorageService _storageService;
-  final List<String> _publicRoutes = [ApiUrl.signin, ApiUrl.signup];
+  final List<String> _publicRoutes = [ApiUrl.signinUrl, ApiUrl.signupUrl];
 
   DioInterceptor(this._storageService);
 
@@ -17,7 +17,8 @@ class DioInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final isPublicRoute = _publicRoutes.contains(options.path);
+    final requestPath = options.uri.path;
+    final isPublicRoute = _publicRoutes.contains(requestPath);
 
     if (!isPublicRoute) {
       final token = await _storageService.getToken();

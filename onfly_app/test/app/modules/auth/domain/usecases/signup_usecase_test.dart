@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:onfly_app/app/core/errors/failures.dart';
-import 'package:onfly_app/app/modules/auth/domain/entities/user_entity.dart';
+import 'package:onfly_app/app/modules/auth/domain/entities/user.dart';
 import 'package:onfly_app/app/modules/auth/domain/repositories/auth_repository.dart';
 import 'package:onfly_app/app/modules/auth/domain/usecases/signup_usecase.dart';
 
@@ -20,14 +20,14 @@ void main() {
   const testName = "Test User";
   const testEmail = "test@email.com";
   const testPassword = "password123";
-  final testUser = UserEntity(
+  final testUser = User(
     id: "1",
     name: testName,
     email: testEmail,
     token: "valid_token",
   );
 
-  test("should return UserEntity when signup is successful", () async {
+  test("should return User when signup is successful", () async {
     when(
       () => mockRepository.signup(
         name: any(named: "name"),

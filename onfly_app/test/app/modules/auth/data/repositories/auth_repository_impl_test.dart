@@ -6,7 +6,7 @@ import 'package:onfly_app/app/modules/auth/data/models/user_model.dart';
 import 'package:onfly_app/app/modules/auth/data/repositories/auth_repository_impl.dart';
 import 'package:onfly_app/app/modules/auth/data/sources/auth_local_datasource.dart';
 import 'package:onfly_app/app/modules/auth/data/sources/auth_remote_datasource.dart';
-import 'package:onfly_app/app/modules/auth/domain/entities/user_entity.dart';
+import 'package:onfly_app/app/modules/auth/domain/entities/user.dart';
 
 class MockAuthRemoteDataSource extends Mock implements AuthRemoteDataSource {}
 
@@ -89,7 +89,7 @@ void main() {
       token: testToken,
     );
 
-    test("should return UserEntity when signup is successful", () async {
+    test("should return User when signup is successful", () async {
       when(
         () => mockRemoteDataSource.signup(
           name: any(named: "name"),
@@ -106,7 +106,7 @@ void main() {
         password: testPassword,
       );
 
-      expect(result, equals(Right<UserEntity, UserEntity>(testUser)));
+      expect(result, equals(Right<User, User>(testUser)));
       verify(
         () => mockRemoteDataSource.signup(
           name: testName,
