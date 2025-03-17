@@ -24,10 +24,10 @@ class _ExpensesPageState extends State<ExpensesPage> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.all(OnflySpacings.pageMargin),
-          child: const ExpensesCardContainer(),
+          padding: EdgeInsets.all(OnflySpacings.pageMargin),
+          child: ExpensesCardContainer(),
         ),
       ),
     );
