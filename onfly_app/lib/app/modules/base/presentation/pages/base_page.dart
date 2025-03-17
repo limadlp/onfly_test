@@ -5,14 +5,14 @@ import 'package:onfly_app/app/core/storage/storage_service.dart';
 import 'package:onfly_design_system/onfly_design_system.dart';
 
 //TODO: Criar um base módulo?
-class BottomBarWidget extends StatefulWidget {
-  const BottomBarWidget({super.key});
+class BasePage extends StatefulWidget {
+  const BasePage({super.key});
 
   @override
-  State<BottomBarWidget> createState() => _BottomBarWidgetState();
+  State<BasePage> createState() => _BasePageState();
 }
 
-class _BottomBarWidgetState extends State<BottomBarWidget> {
+class _BasePageState extends State<BasePage> {
   int _currentIndex = 0;
 
   final List<String> _routes = [
@@ -57,11 +57,37 @@ class _BottomBarWidgetState extends State<BottomBarWidget> {
       appBar: AppBar(
         title: Text('Onfly', style: OnflyTypography.titleXL),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              Modular.get<StorageService>().clearToken();
-              Modular.to.navigate(AppRoutes.auth);
+          // TODO: Implementar busca de nome de usuário
+          PopupMenuButton(
+            padding: const EdgeInsets.symmetric(
+              horizontal: OnflySpacings.buttonPaddingHorizontal,
+            ),
+            icon: const Icon(Icons.account_circle),
+            itemBuilder:
+                (context) => [
+                  // PopupMenuItem(
+                  //   enabled: false,
+                  //   child: Text(
+                  //     'John Doe',
+                  //     style: OnflyTypography.titleSM,
+                  //   ),
+                  // ),
+                  const PopupMenuItem(
+                    value: 'signout',
+                    child: Row(
+                      children: [
+                        Icon(Icons.logout),
+                        SizedBox(width: 8),
+                        Text('Logout'),
+                      ],
+                    ),
+                  ),
+                ],
+            onSelected: (value) {
+              if (value == 'signout') {
+                Modular.get<StorageService>().clearToken();
+                Modular.to.navigate(AppRoutes.auth);
+              }
             },
           ),
         ],
