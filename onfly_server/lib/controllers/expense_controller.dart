@@ -61,12 +61,19 @@ class ExpenseController {
     final newExpense = ExpenseModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       userId: email,
-      date: DateTime.parse(payload['date']),
-      value: payload['value'].toDouble(),
+      date: payload['date'],
+      amount: payload['amount'].toDouble(),
       category: payload['category'],
       description: payload['description'],
+      status: payload['status'] ?? 'pending',
+      notes: payload['notes'] ?? '',
+      location: payload['location'] ?? '',
+      paymentMethod: payload['paymentMethod'] ?? 'other',
+      approvedBy: payload['approvedBy'] ?? '',
+      approvedAt: payload['approvedAt'] ?? '',
       isSynced: false,
-      receiptPath: payload['receiptPath'],
+      hasReceipt: payload['hasReceipt'] ?? false,
+      receiptUrl: payload['receiptUrl'],
     );
 
     await _expenseService.addExpense(newExpense);
@@ -98,12 +105,19 @@ class ExpenseController {
     final updatedExpense = ExpenseModel(
       id: id,
       userId: existingExpense.userId,
-      date: DateTime.parse(payload['date']),
-      value: payload['value'].toDouble(),
+      date: payload['date'],
+      amount: payload['amount'].toDouble(),
       category: payload['category'],
       description: payload['description'],
+      status: payload['status'] ?? existingExpense.status,
+      notes: payload['notes'] ?? existingExpense.notes,
+      location: payload['location'] ?? existingExpense.location,
+      paymentMethod: payload['paymentMethod'] ?? existingExpense.paymentMethod,
+      approvedBy: payload['approvedBy'] ?? existingExpense.approvedBy,
+      approvedAt: payload['approvedAt'] ?? existingExpense.approvedAt,
       isSynced: true,
-      receiptPath: payload['receiptPath'] ?? existingExpense.receiptPath,
+      hasReceipt: payload['hasReceipt'] ?? existingExpense.hasReceipt,
+      receiptUrl: payload['receiptUrl'] ?? existingExpense.receiptUrl,
     );
 
     await _expenseService.updateExpense(id, updatedExpense);
@@ -180,11 +194,18 @@ class ExpenseController {
         id: existingExpense.id,
         userId: existingExpense.userId,
         date: existingExpense.date,
-        value: existingExpense.value,
+        amount: existingExpense.amount,
         category: existingExpense.category,
         description: existingExpense.description,
+        status: existingExpense.status,
+        notes: existingExpense.notes,
+        location: existingExpense.location,
+        paymentMethod: existingExpense.paymentMethod,
+        approvedBy: existingExpense.approvedBy,
+        approvedAt: existingExpense.approvedAt,
         isSynced: false,
-        receiptPath: filePath,
+        hasReceipt: true,
+        receiptUrl: filePath,
       );
 
       await _expenseService.updateExpense(expenseId, updatedExpense);
@@ -197,7 +218,7 @@ class ExpenseController {
         headers: {'Content-Type': 'application/json'},
       );
     } catch (e) {
-      print('❌ Error processing image upload: $e');
+      print('Error processing image upload: $e');
       return Response.internalServerError(
         body: jsonEncode({'error': 'Failed to save image'}),
         headers: {'Content-Type': 'application/json'},

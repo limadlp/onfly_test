@@ -48,7 +48,7 @@ class OnflyStatusBadge extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: OnflyBorders.smallRadius,
+        borderRadius: OnflyBorders.circularRadius,
       ),
       child: Text(
         statusText,

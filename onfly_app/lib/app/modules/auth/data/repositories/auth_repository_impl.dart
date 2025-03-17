@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:onfly_app/app/core/errors/failures.dart';
 import 'package:onfly_app/app/modules/auth/data/sources/auth_local_datasource.dart';
 import 'package:onfly_app/app/modules/auth/data/sources/auth_remote_datasource.dart';
-import 'package:onfly_app/app/modules/auth/domain/entities/user_entity.dart';
+import 'package:onfly_app/app/modules/auth/domain/entities/user.dart';
 import 'package:onfly_app/app/modules/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -32,7 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> signup({
+  Future<Either<Failure, User>> signup({
     required String name,
     required String email,
     required String password,

@@ -1,12 +1,11 @@
 class ApiUrl {
-  static const String baseUrl = 'http://localhost:5000/';
+  static const String baseUrl = 'http://localhost:5000';
 
-  static const apiV = 'api/v1/';
+  static const String signin = '$baseUrl/auth/signin';
+  static const String signup = '$baseUrl/auth/signup';
+  static const String expenses = '$baseUrl/expenses';
 
-  static const String signin = '${baseUrl}auth/signin';
-
-  static const String signup = '$baseUrl${apiV}auth/signup';
-  //static const String signin = '$baseUrl${apiV}auth/signin';
-  static const trendingMovies = '$baseUrl${apiV}movie/trending';
-  static const nowPlayingMovies = '$baseUrl${apiV}movie/nowplaying';
+  static const String signinUrl = '/auth/signin';
+  static const String signupUrl = '/auth/signup';
+  static const String expensesUrl = '/expenses';
 }

@@ -1,6 +1,6 @@
-import 'package:onfly_app/app/modules/auth/domain/entities/user_entity.dart';
+import 'package:onfly_app/app/modules/auth/domain/entities/user.dart';
 
-class UserModel extends UserEntity {
+class UserModel extends User {
   UserModel({
     required super.id,
     required super.name,
