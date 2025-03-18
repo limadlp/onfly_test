@@ -6,6 +6,7 @@ import 'package:onfly_app/app/modules/expenses/data/sources/expenses_remote_data
 import 'package:onfly_app/app/modules/expenses/domain/repositories/expenses_repository.dart';
 import 'package:onfly_app/app/modules/expenses/domain/usecases/get_expenses_usecase.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_cubit.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/pages/add/add_expense_page.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/pages/detail/expense_detail_page.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/pages/expenses_page.dart';
 
@@ -42,6 +43,17 @@ class ExpensesModule extends Module {
                   getExpensesUsecase: Modular.get<GetExpensesUsecase>(),
                 ),
             child: ExpenseDetailPage(expenseId: r.args.data as String),
+          ),
+    );
+    r.child(
+      '/add',
+      child:
+          (context) => BlocProvider(
+            create:
+                (context) => ExpensesCubit(
+                  getExpensesUsecase: Modular.get<GetExpensesUsecase>(),
+                ),
+            child: const AddExpensePage(),
           ),
     );
   }

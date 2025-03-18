@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:onfly_app/app/core/constants/app_routes.dart';
 import 'package:onfly_app/app/core/ui/widgets/onfly_app_bar.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_state.dart';
@@ -18,7 +20,8 @@ class ExpensesPage extends StatelessWidget {
       body: BlocBuilder<ExpensesCubit, ExpensesState>(
         builder: (context, state) {
           return RefreshIndicator(
-            onRefresh: () => context.read<ExpensesCubit>().loadExpenses(),
+            onRefresh:
+                () => BlocProvider.of<ExpensesCubit>(context).loadExpenses(),
             child: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
@@ -30,10 +33,14 @@ class ExpensesPage extends StatelessWidget {
                         ExpensesHeader(
                           state: state,
                           onSearchQueryChanged: (query) {
-                            context.read<ExpensesCubit>().setSearchQuery(query);
+                            BlocProvider.of<ExpensesCubit>(
+                              context,
+                            ).setSearchQuery(query);
                           },
                           onFilterSelected: (filter) {
-                            context.read<ExpensesCubit>().setFilter(filter);
+                            BlocProvider.of<ExpensesCubit>(
+                              context,
+                            ).setFilter(filter);
                           },
                         ),
 
@@ -72,8 +79,9 @@ class ExpensesPage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        //TODO: Ir para a página de criação de despesas
-        onPressed: () {},
+        onPressed: () {
+          Modular.to.pushNamed(AppRoutes.addExpense);
+        },
         backgroundColor: OnflyColors.primary,
         child: const Icon(Icons.add),
       ),
