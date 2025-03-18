@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_state.dart';
 
 import 'package:onfly_app/app/modules/expenses/presentation/widgets/expense_item.dart';
@@ -7,8 +8,9 @@ import 'package:onfly_design_system/onfly_design_system.dart';
 
 class ExpensesList extends StatelessWidget {
   final ExpensesState state;
+  final ExpensesCubit cubit;
 
-  const ExpensesList({super.key, required this.state});
+  const ExpensesList({super.key, required this.state, required this.cubit});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,7 @@ class ExpensesList extends StatelessWidget {
                     ...state.filteredExpenses.map(
                       (expense) => Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
-                        child: ExpenseItem(expense: expense),
+                        child: ExpenseItem(expense: expense, cubit: cubit),
                       ),
                     ),
                 ],

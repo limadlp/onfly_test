@@ -29,12 +29,11 @@ class OnflyFilterChip extends StatelessWidget {
             ),
             const SizedBox(width: 4),
           ],
-          Text(label),
+          Flexible(child: Text(label, overflow: TextOverflow.ellipsis)),
         ],
       ),
       selected: isSelected,
       onSelected: onSelected,
-      //backgroundColor: Colors.white,
       selectedColor: OnflyColors.primary,
       checkmarkColor: Colors.white,
       labelStyle: TextStyle(

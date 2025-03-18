@@ -1,20 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onfly_app/app/core/extensions/number_formatter.dart';
 import 'package:onfly_app/app/core/utils/date_utils.dart';
 import 'package:onfly_app/app/modules/expenses/domain/entities/expense.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_cubit.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/pages/detail/expense_detail_page.dart';
 import 'package:onfly_design_system/onfly_design_system.dart';
 
 class ExpenseItem extends StatelessWidget {
   final Expense expense;
+  final ExpensesCubit cubit;
 
-  const ExpenseItem({super.key, required this.expense});
+  const ExpenseItem({super.key, required this.expense, required this.cubit});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Modular.to.pushNamed('/expenses/detail', arguments: expense.id);
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder:
+              (context) => BlocProvider.value(
+                value: cubit, // Passa o Cubit existente
+                child: Material(
+                  color: Colors.transparent,
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: Scaffold(
+                          body: ExpenseDetailPage(expenseId: expense.id),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+        );
       },
       borderRadius: BorderRadius.circular(8),
       child: Container(

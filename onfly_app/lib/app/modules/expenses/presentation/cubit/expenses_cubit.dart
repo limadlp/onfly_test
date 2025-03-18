@@ -79,16 +79,9 @@ class ExpensesCubit extends Cubit<ExpensesState> {
   Future<void> addExpense(Expense expense) async {
     emit(state.copyWith(status: ExpensesStatus.loading));
     try {
-      final newExpense = await _expenseService.addExpense(expense);
-      final updatedExpenses = [...state.expenses, newExpense];
-      final expensesByCategory = _calculateExpensesByCategory(updatedExpenses);
-      emit(
-        state.copyWith(
-          expenses: updatedExpenses,
-          status: ExpensesStatus.loaded,
-          expensesByCategory: expensesByCategory,
-        ),
-      );
+      await _expenseService.addExpense(expense);
+
+      await loadExpenses();
     } catch (e) {
       emit(
         state.copyWith(
@@ -127,15 +120,15 @@ class ExpensesCubit extends Cubit<ExpensesState> {
 
   Future<void> deleteExpense(String id) async {
     emit(state.copyWith(status: ExpensesStatus.loading));
+
     try {
       await _expenseService.deleteExpense(id);
-      final updatedExpenses = state.expenses.where((e) => e.id != id).toList();
-      final expensesByCategory = _calculateExpensesByCategory(updatedExpenses);
+      final newList = state.expenses.where((e) => e.id != id).toList();
       emit(
         state.copyWith(
-          expenses: updatedExpenses,
+          expenses: newList,
           status: ExpensesStatus.loaded,
-          expensesByCategory: expensesByCategory,
+          expensesByCategory: _calculateExpensesByCategory(newList),
         ),
       );
     } catch (e) {

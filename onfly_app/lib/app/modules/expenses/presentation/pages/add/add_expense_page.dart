@@ -9,7 +9,8 @@ import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_cubit
 import 'package:onfly_design_system/onfly_design_system.dart';
 
 class AddExpensePage extends StatefulWidget {
-  const AddExpensePage({super.key});
+  final ExpensesCubit expensesCubit;
+  const AddExpensePage({super.key, required this.expensesCubit});
 
   @override
   State<AddExpensePage> createState() => _AddExpensePageState();
@@ -105,7 +106,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
           userId: '',
         );
 
-        await context.read<ExpensesCubit>().addExpense(newExpense);
+        await widget.expensesCubit.addExpense(newExpense);
         if (mounted) {
           Navigator.of(context).pop();
         }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:onfly_app/app/core/constants/app_routes.dart';
+import 'package:onfly_app/app/modules/base/presentation/pages/widgets/onfly_app_bar.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({super.key});
@@ -51,6 +52,7 @@ class _BasePageState extends State<BasePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const OnflyAppBar(),
       body: const RouterOutlet(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:onfly_app/app/core/constants/app_routes.dart';
-import 'package:onfly_app/app/core/ui/widgets/onfly_app_bar.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_state.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/pages/add/add_expense_page.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/widgets/chart/chart_card_container.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/widgets/expenses_header.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/widgets/expenses_list.dart';
@@ -16,13 +14,14 @@ class ExpensesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const OnflyAppBar(),
       body: BlocBuilder<ExpensesCubit, ExpensesState>(
         builder: (context, state) {
           return RefreshIndicator(
-            onRefresh:
-                () => BlocProvider.of<ExpensesCubit>(context).loadExpenses(),
+            onRefresh: () async {
+              await BlocProvider.of<ExpensesCubit>(context).loadExpenses();
+            },
             child: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
                 SliverToBoxAdapter(
                   child: Padding(
@@ -46,9 +45,6 @@ class ExpensesPage extends StatelessWidget {
 
                         const SizedBox(height: 16),
 
-                        if (state.status == ExpensesStatus.loading &&
-                            state.expenses.isEmpty)
-                          const Center(child: CircularProgressIndicator()),
                         if (state.status == ExpensesStatus.error)
                           Center(
                             child: Text(
@@ -57,8 +53,12 @@ class ExpensesPage extends StatelessWidget {
                             ),
                           ),
 
-                        if (state.status == ExpensesStatus.loaded ||
-                            state.expenses.isNotEmpty)
+                        if (state.status == ExpensesStatus.loading)
+                          const SizedBox(
+                            height: 300,
+                            child: Center(child: CircularProgressIndicator()),
+                          )
+                        else if (state.expenses.isNotEmpty)
                           ChartCardContainer(
                             expensesByCategory: state.expensesByCategory,
                           ),
@@ -67,10 +67,15 @@ class ExpensesPage extends StatelessWidget {
                   ),
                 ),
 
-                // Lista de despesas
-                if (state.status == ExpensesStatus.loaded ||
-                    state.expenses.isNotEmpty)
-                  ExpensesList(state: state),
+                if (state.status == ExpensesStatus.loading)
+                  const SliverFillRemaining(
+                    child: Center(child: CircularProgressIndicator()),
+                  )
+                else if (state.expenses.isNotEmpty)
+                  ExpensesList(
+                    state: state,
+                    cubit: context.read<ExpensesCubit>(),
+                  ),
 
                 const SliverToBoxAdapter(child: SizedBox(height: 120)),
               ],
@@ -80,7 +85,25 @@ class ExpensesPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Modular.to.pushNamed(AppRoutes.addExpense);
+          final expensesCubit = context.read<ExpensesCubit>();
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return Material(
+                color: Colors.transparent,
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: Scaffold(
+                        body: AddExpensePage(expensesCubit: expensesCubit),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
         },
         backgroundColor: OnflyColors.primary,
         child: const Icon(Icons.add),
