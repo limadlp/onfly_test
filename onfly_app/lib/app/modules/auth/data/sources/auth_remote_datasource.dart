@@ -30,7 +30,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }) async {
     try {
       final response = await apiClient.post(
-        ApiUrl.signin,
+        ApiUrl.signinUrl,
         data: {'email': email, 'password': password},
       );
 
@@ -57,7 +57,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }) async {
     try {
       final response = await apiClient.post(
-        ApiUrl.signup,
+        ApiUrl.signupUrl,
         data: {'name': name, 'email': email, 'password': password},
       );
 

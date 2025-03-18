@@ -17,7 +17,7 @@ class ExpensesRemoteDatasourceImpl implements ExpensesRemoteDatasource {
   @override
   Future<Either<Failure, List<ExpenseModel>>> getExpenses() async {
     try {
-      final response = await apiClient.get(ApiUrl.expenses);
+      final response = await apiClient.get(ApiUrl.expensesUrl);
 
       final List<ExpenseModel> expenses =
           (response as List)

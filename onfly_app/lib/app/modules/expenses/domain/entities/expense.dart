@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class Expense {
   final String id;
   final String userId;
@@ -32,4 +33,40 @@ class Expense {
     required this.hasReceipt,
     this.receiptUrl,
   });
+
+  Expense copyWith({
+    String? id,
+    String? userId,
+    String? date,
+    double? amount,
+    String? category,
+    String? description,
+    String? status,
+    String? notes,
+    String? location,
+    String? paymentMethod,
+    String? approvedBy,
+    String? approvedAt,
+    bool? isSynced,
+    bool? hasReceipt,
+    String? receiptUrl,
+  }) {
+    return Expense(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      date: date ?? this.date,
+      amount: amount ?? this.amount,
+      category: category ?? this.category,
+      description: description ?? this.description,
+      status: status ?? this.status,
+      notes: notes ?? this.notes,
+      location: location ?? this.location,
+      paymentMethod: paymentMethod ?? this.paymentMethod,
+      approvedBy: approvedBy ?? this.approvedBy,
+      approvedAt: approvedAt ?? this.approvedAt,
+      isSynced: isSynced ?? this.isSynced,
+      hasReceipt: hasReceipt ?? this.hasReceipt,
+      receiptUrl: receiptUrl ?? this.receiptUrl,
+    );
+  }
 }

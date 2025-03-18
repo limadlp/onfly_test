@@ -38,7 +38,7 @@ void main() {
 
       expect(result, equals(const Right<String, String>(testToken)));
       verify(
-        () => mockApiClient.post(ApiUrl.signin, data: any(named: "data")),
+        () => mockApiClient.post(ApiUrl.signinUrl, data: any(named: "data")),
       ).called(1);
     });
 
