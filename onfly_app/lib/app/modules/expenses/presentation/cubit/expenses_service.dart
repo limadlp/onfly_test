@@ -18,6 +18,7 @@ class ExpenseService {
       approvedAt: '2023-11-15',
       userId: '1',
       isSynced: false,
+      rejectionReason: '',
     ),
     Expense(
       id: '2',
@@ -34,6 +35,7 @@ class ExpenseService {
       approvedAt: '',
       userId: '1',
       isSynced: false,
+      rejectionReason: '',
     ),
     Expense(
       id: '3',
@@ -50,6 +52,7 @@ class ExpenseService {
       approvedAt: '2023-11-11',
       userId: '1',
       isSynced: false,
+      rejectionReason: '',
     ),
     Expense(
       id: '4',
@@ -66,6 +69,7 @@ class ExpenseService {
       approvedAt: '',
       userId: '1',
       isSynced: false,
+      rejectionReason: '',
     ),
     Expense(
       id: '4',
@@ -82,6 +86,7 @@ class ExpenseService {
       approvedAt: '',
       userId: '1',
       isSynced: false,
+      rejectionReason: null,
     ),
   ];
   // Simulate API call to get expenses

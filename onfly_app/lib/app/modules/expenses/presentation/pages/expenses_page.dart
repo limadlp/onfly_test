@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onfly_app/app/core/ui/widgets/onfly_app_bar.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_state.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/widgets/chart/chart_card_container.dart';
@@ -13,6 +14,7 @@ class ExpensesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const OnflyAppBar(),
       body: BlocBuilder<ExpensesCubit, ExpensesState>(
         builder: (context, state) {
           return RefreshIndicator(

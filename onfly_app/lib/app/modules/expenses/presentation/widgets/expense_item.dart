@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:onfly_app/app/core/extensions/number_formatter.dart';
 import 'package:onfly_app/app/core/utils/date_utils.dart';
 import 'package:onfly_app/app/modules/expenses/domain/entities/expense.dart';
@@ -13,7 +14,7 @@ class ExpenseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // TODO: Implementar navegação para tela de detalhes da despesa
+        Modular.to.pushNamed('/expenses/detail', arguments: expense.id);
       },
       borderRadius: BorderRadius.circular(8),
       child: Container(

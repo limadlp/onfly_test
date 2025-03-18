@@ -34,11 +34,11 @@ class OnflyFilterChip extends StatelessWidget {
       ),
       selected: isSelected,
       onSelected: onSelected,
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       selectedColor: OnflyColors.primary,
       checkmarkColor: Colors.white,
       labelStyle: TextStyle(
-        color: isSelected ? Colors.white : OnflyColors.gray600,
+        color: isSelected ? Colors.white : null,
         fontWeight: FontWeight.w500,
       ),
       shape: RoundedRectangleBorder(

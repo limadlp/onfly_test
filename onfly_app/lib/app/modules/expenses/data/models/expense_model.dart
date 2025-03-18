@@ -17,6 +17,7 @@ class ExpenseModel extends Expense {
     required super.isSynced,
     required super.hasReceipt,
     super.receiptUrl,
+    required super.rejectionReason,
   });
 
   factory ExpenseModel.fromJson(Map<String, dynamic> json) {
@@ -36,6 +37,7 @@ class ExpenseModel extends Expense {
       isSynced: json['isSynced'],
       hasReceipt: json['hasReceipt'],
       receiptUrl: json['receiptUrl'],
+      rejectionReason: json['rejectionReason'],
     );
   }
 
@@ -56,6 +58,7 @@ class ExpenseModel extends Expense {
       'isSynced': isSynced,
       'hasReceipt': hasReceipt,
       'receiptUrl': receiptUrl,
+      'rejectionReason': rejectionReason,
     };
   }
 
@@ -78,7 +81,8 @@ class ExpenseModel extends Expense {
           approvedAt == other.approvedAt &&
           isSynced == other.isSynced &&
           hasReceipt == other.hasReceipt &&
-          receiptUrl == other.receiptUrl;
+          receiptUrl == other.receiptUrl &&
+          rejectionReason == other.rejectionReason;
 
   @override
   int get hashCode => Object.hash(
@@ -97,5 +101,6 @@ class ExpenseModel extends Expense {
     isSynced,
     hasReceipt,
     receiptUrl,
+    rejectionReason,
   );
 }

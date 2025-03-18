@@ -7,11 +7,12 @@ class Expense {
   final String category;
   final String description;
   final String status;
-  final String notes;
-  final String location;
-  final String paymentMethod;
+  final String? notes;
+  final String? location;
+  final String? paymentMethod;
   final String? approvedBy;
   final String? approvedAt;
+  final String? rejectionReason;
   final bool isSynced;
   final bool hasReceipt;
   final String? receiptUrl;
@@ -29,6 +30,7 @@ class Expense {
     required this.paymentMethod,
     required this.approvedBy,
     required this.approvedAt,
+    this.rejectionReason,
     required this.isSynced,
     required this.hasReceipt,
     this.receiptUrl,
@@ -47,6 +49,7 @@ class Expense {
     String? paymentMethod,
     String? approvedBy,
     String? approvedAt,
+    String? rejectionReason,
     bool? isSynced,
     bool? hasReceipt,
     String? receiptUrl,
@@ -64,6 +67,7 @@ class Expense {
       paymentMethod: paymentMethod ?? this.paymentMethod,
       approvedBy: approvedBy ?? this.approvedBy,
       approvedAt: approvedAt ?? this.approvedAt,
+      rejectionReason: rejectionReason ?? this.rejectionReason,
       isSynced: isSynced ?? this.isSynced,
       hasReceipt: hasReceipt ?? this.hasReceipt,
       receiptUrl: receiptUrl ?? this.receiptUrl,

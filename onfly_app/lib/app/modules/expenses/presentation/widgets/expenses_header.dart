@@ -44,7 +44,7 @@ class ExpensesHeader extends StatelessWidget {
             ),
             contentPadding: const EdgeInsets.symmetric(vertical: 12),
             filled: true,
-            fillColor: Colors.white,
+            //fillColor: Colors.white,
           ),
           onChanged: onSearchQueryChanged,
         ),
