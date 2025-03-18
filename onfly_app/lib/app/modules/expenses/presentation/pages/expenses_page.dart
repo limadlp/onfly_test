@@ -1,89 +1,113 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onfly_app/app/modules/expenses/domain/entities/expense.dart';
-import 'package:onfly_app/app/modules/expenses/domain/entities/expense_status.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_cubit.dart';
-import 'package:onfly_app/app/modules/expenses/presentation/widgets/expenses_card_container.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_state.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/pages/add/add_expense_page.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/widgets/chart/chart_card_container.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/widgets/expenses_header.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/widgets/expenses_list.dart';
 import 'package:onfly_design_system/onfly_design_system.dart';
 
-class ExpensesPage extends StatefulWidget {
+class ExpensesPage extends StatelessWidget {
   const ExpensesPage({super.key});
 
   @override
-  State<ExpensesPage> createState() => _ExpensesPageState();
-}
-
-class _ExpensesPageState extends State<ExpensesPage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<ExpensesCubit>().fetchExpenses();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(OnflySpacings.pageMargin),
-          child: ExpensesCardContainer(),
-        ),
+    return Scaffold(
+      body: BlocBuilder<ExpensesCubit, ExpensesState>(
+        builder: (context, state) {
+          return RefreshIndicator(
+            onRefresh: () async {
+              await BlocProvider.of<ExpensesCubit>(context).loadExpenses();
+            },
+            child: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ExpensesHeader(
+                          state: state,
+                          onSearchQueryChanged: (query) {
+                            BlocProvider.of<ExpensesCubit>(
+                              context,
+                            ).setSearchQuery(query);
+                          },
+                          onFilterSelected: (filter) {
+                            BlocProvider.of<ExpensesCubit>(
+                              context,
+                            ).setFilter(filter);
+                          },
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        if (state.status == ExpensesStatus.error)
+                          Center(
+                            child: Text(
+                              'Erro ao carregar despesas: ${state.errorMessage}',
+                              style: const TextStyle(color: OnflyColors.alert),
+                            ),
+                          ),
+
+                        if (state.status == ExpensesStatus.loading)
+                          const SizedBox(
+                            height: 300,
+                            child: Center(child: CircularProgressIndicator()),
+                          )
+                        else if (state.expenses.isNotEmpty)
+                          ChartCardContainer(
+                            expensesByCategory: state.expensesByCategory,
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                if (state.status == ExpensesStatus.loading)
+                  const SliverFillRemaining(
+                    child: Center(child: CircularProgressIndicator()),
+                  )
+                else if (state.expenses.isNotEmpty)
+                  ExpensesList(
+                    state: state,
+                    cubit: context.read<ExpensesCubit>(),
+                  ),
+
+                const SliverToBoxAdapter(child: SizedBox(height: 120)),
+              ],
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final expensesCubit = context.read<ExpensesCubit>();
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return Material(
+                color: Colors.transparent,
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: Scaffold(
+                        body: AddExpensePage(expensesCubit: expensesCubit),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+        backgroundColor: OnflyColors.primary,
+        child: const Icon(Icons.add),
       ),
     );
   }
 }
-
-//TODO: remove this
-final expenses = [
-  Expense(
-    id: '1',
-    userId: 'user123',
-    date: '15/03/2023',
-    amount: 120.304,
-    category: 'Transporte',
-    description: 'Taxi aeroporto',
-    status: ExpenseStatus.pending.label,
-    notes: '',
-    location: 'São Paulo',
-    paymentMethod: 'Cartão de crédito',
-    approvedBy: '',
-    approvedAt: '',
-    isSynced: true,
-    hasReceipt: false,
-    receiptUrl: null,
-  ),
-  Expense(
-    id: '2',
-    userId: 'user123',
-    date: '16/03/2023',
-    amount: 350.0,
-    category: 'Hospedagem',
-    description: 'Hotel Ibis',
-    status: ExpenseStatus.rejected.label,
-    notes: '',
-    location: 'São Paulo',
-    paymentMethod: 'Cartão de crédito',
-    approvedBy: '',
-    approvedAt: '',
-    isSynced: true,
-    hasReceipt: true,
-    receiptUrl: 'https://example.com/receipt2.pdf',
-  ),
-  Expense(
-    id: '3',
-    userId: 'user123',
-    date: '17/03/2023',
-    amount: 75.0,
-    category: 'Outros',
-    description: 'Material escritório 2',
-    status: ExpenseStatus.approved.label,
-    notes: '',
-    location: 'São Paulo',
-    paymentMethod: 'Cartão de crédito',
-    approvedBy: 'approver123',
-    approvedAt: '2025-03-10T12:00:00Z',
-    isSynced: true,
-    hasReceipt: true,
-    receiptUrl: 'https://example.com/receipt3.pdf',
-  ),
-];

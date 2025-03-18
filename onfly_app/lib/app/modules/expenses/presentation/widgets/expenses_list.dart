@@ -1,53 +1,80 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onfly_app/app/core/utils/date_utils.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_state.dart';
-import 'package:onfly_app/app/modules/expenses/presentation/widgets/onfly_expense_card.dart';
-import 'package:onfly_app/app/core/ui/widgets/skeleton.dart';
+
+import 'package:onfly_app/app/modules/expenses/presentation/widgets/expense_item.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/widgets/expenses_total_card.dart';
+import 'package:onfly_design_system/onfly_design_system.dart';
 
 class ExpensesList extends StatelessWidget {
-  const ExpensesList({super.key});
+  final ExpensesState state;
+  final ExpensesCubit cubit;
+
+  const ExpensesList({super.key, required this.state, required this.cubit});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ExpensesCubit, ExpensesState>(
-      builder: (context, state) {
-        if (state is ExpensesLoading) {
-          return Column(
-            children: List.generate(
-              3,
-              (index) => const Padding(
-                padding: EdgeInsets.symmetric(vertical: 2),
-                child: Skeleton(height: 80, width: double.infinity),
+    return SliverPadding(
+      padding: const EdgeInsets.all(16.0),
+      sliver: SliverList(
+        delegate: SliverChildListDelegate([
+          Card(
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Descrição',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: OnflyColors.gray500,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          'Valor',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: OnflyColors.gray500,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  if (state.filteredExpenses.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 24.0),
+                      child: Center(child: Text('Nenhuma despesa encontrada')),
+                    )
+                  else
+                    ...state.filteredExpenses.map(
+                      (expense) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: ExpenseItem(expense: expense, cubit: cubit),
+                      ),
+                    ),
+                ],
               ),
             ),
-          );
-        } else if (state is ExpensesLoaded) {
-          return Column(
-            children:
-                state.expenses
-                    .map(
-                      (expense) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        child: OnflyExpenseCard(
-                          description: expense.description,
-                          amount: expense.amount,
-                          date: FormatUtils.formatDate(expense.date),
-                          category: expense.category,
-                          status: expense.status,
-                          hasReceipt: expense.hasReceipt,
-                          onTap: () {},
-                        ),
-                      ),
-                    )
-                    .toList(),
-          );
-        } else if (state is ExpensesError) {
-          return Center(child: Text(state.message));
-        }
-        return Container();
-      },
+          ),
+          const SizedBox(height: 16),
+
+          ExpensesTotalCard(total: state.totalAmount),
+        ]),
+      ),
     );
   }
 }

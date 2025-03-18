@@ -8,7 +8,7 @@ import 'package:onfly_app/app/core/storage/storage_service.dart';
 
 class DioInterceptor extends Interceptor {
   final StorageService _storageService;
-  final List<String> _publicRoutes = [ApiUrl.signinUrl, ApiUrl.signupUrl];
+  final List<String> _publicRoutes = [ApiUrl.signin, ApiUrl.signup];
 
   DioInterceptor(this._storageService);
 
