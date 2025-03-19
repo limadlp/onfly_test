@@ -62,7 +62,7 @@ onfly_repo
 1. **Clone the repository:**
 
 ```bash
-git clone https://github.com/your-username/onfly_repo.git
+git clone https://github.com/limadlp/onfly_test.git
 cd onfly_repo
 ```
 
@@ -147,7 +147,7 @@ Below is an overview of the key endpoints. For full details, see the `onfly_serv
 final newExpense = Expense(
   id: '', // or any temp ID
   userId: currentUserEmail,
-  date: DateTime.now(),
+  date: DateTime.now().toString(),
   amount: 123.45,
   category: 'Meals',
   description: 'Lunch with client',
