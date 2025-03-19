@@ -126,6 +126,19 @@ To test the application, use the following credentials:
 
 ## 🚀 Main Functionalities
 
+## 📱 Design System
+
+The **onfly_design_system** is a Flutter package that can be reused across any Onfly project, providing:
+
+- **Color tokens** (Primary, Secondary, Alert, Success, etc.)
+- **Typography** (Headings, Paragraphs, etc.)
+- **Widgets** (Buttons, Forms, Cards)
+- **Theme support** (Light/Dark mode)
+
+This ensures a **consistent** UI across all Onfly projects.
+
+## 📱 Mobile App
+
 ### 1. **Authentication**
 
 - Users can **sign in** via email and password. The token is saved locally and included in all API requests.
@@ -188,17 +201,6 @@ A `syncExpenses()` method in the Repository tries to:
 1. **Find unsynced expenses** (`isSynced = false`) in the local DB.
 2. **Upload or update** them remotely (depending on whether they exist in the server).
 3. **Fetch** the updated list from the server and re-save them locally to ensure data consistency.
-
-## 📱 Design System
-
-The **onfly_design_system** is a Flutter package that can be reused across any Onfly project, providing:
-
-- **Color tokens** (Primary, Secondary, Alert, Success, etc.)
-- **Typography** (Headings, Paragraphs, etc.)
-- **Widgets** (Buttons, Forms, Cards)
-- **Theme support** (Light/Dark mode)
-
-This ensures a **consistent** UI across all Onfly projects.
 
 ## 🧪 Testing Guide
 
