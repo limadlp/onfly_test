@@ -24,7 +24,6 @@ class ExpensesState extends Equatable {
 
   List<Expense> get filteredExpenses {
     return expenses.where((expense) {
-      // Apply status filter
       if (filter != ExpenseFilter.all) {
         switch (filter) {
           case ExpenseFilter.pending:
@@ -41,7 +40,6 @@ class ExpensesState extends Equatable {
         }
       }
 
-      // Apply search filter
       if (searchQuery.isNotEmpty) {
         final query = searchQuery.toLowerCase();
         return expense.description.toLowerCase().contains(query) ||

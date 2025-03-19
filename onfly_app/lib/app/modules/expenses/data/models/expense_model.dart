@@ -9,15 +9,15 @@ class ExpenseModel extends Expense {
     required super.category,
     required super.description,
     required super.status,
-    required super.notes,
-    required super.location,
-    required super.paymentMethod,
-    required super.approvedBy,
-    required super.approvedAt,
-    required super.isSynced,
     required super.hasReceipt,
+    super.notes,
+    super.location,
+    super.paymentMethod,
+    super.approvedBy,
+    super.approvedAt,
+    required super.isSynced,
     super.receiptUrl,
-    required super.rejectionReason,
+    super.rejectionReason,
   });
 
   factory ExpenseModel.fromJson(Map<String, dynamic> json) {
@@ -25,17 +25,17 @@ class ExpenseModel extends Expense {
       id: json['id'],
       userId: json['userId'],
       date: json['date'],
-      amount: json['amount'],
+      amount: (json['amount'] as num).toDouble(),
       category: json['category'],
       description: json['description'],
       status: json['status'],
+      hasReceipt: json['hasReceipt'] ?? false,
       notes: json['notes'],
       location: json['location'],
       paymentMethod: json['paymentMethod'],
       approvedBy: json['approvedBy'],
       approvedAt: json['approvedAt'],
-      isSynced: json['isSynced'],
-      hasReceipt: json['hasReceipt'],
+      isSynced: json['isSynced'] ?? false,
       receiptUrl: json['receiptUrl'],
       rejectionReason: json['rejectionReason'],
     );
@@ -50,57 +50,57 @@ class ExpenseModel extends Expense {
       'category': category,
       'description': description,
       'status': status,
+      'hasReceipt': hasReceipt,
       'notes': notes,
       'location': location,
       'paymentMethod': paymentMethod,
       'approvedBy': approvedBy,
       'approvedAt': approvedAt,
       'isSynced': isSynced,
-      'hasReceipt': hasReceipt,
       'receiptUrl': receiptUrl,
       'rejectionReason': rejectionReason,
     };
   }
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ExpenseModel &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          userId == other.userId &&
-          date == other.date &&
-          amount == other.amount &&
-          category == other.category &&
-          description == other.description &&
-          status == other.status &&
-          notes == other.notes &&
-          location == other.location &&
-          paymentMethod == other.paymentMethod &&
-          approvedBy == other.approvedBy &&
-          approvedAt == other.approvedAt &&
-          isSynced == other.isSynced &&
-          hasReceipt == other.hasReceipt &&
-          receiptUrl == other.receiptUrl &&
-          rejectionReason == other.rejectionReason;
+  factory ExpenseModel.fromEntity(Expense expense) {
+    return ExpenseModel(
+      id: expense.id,
+      userId: expense.userId,
+      date: expense.date,
+      amount: expense.amount,
+      category: expense.category,
+      description: expense.description,
+      status: expense.status,
+      hasReceipt: expense.hasReceipt,
+      notes: expense.notes,
+      location: expense.location,
+      paymentMethod: expense.paymentMethod,
+      approvedBy: expense.approvedBy,
+      approvedAt: expense.approvedAt,
+      isSynced: expense.isSynced,
+      receiptUrl: expense.receiptUrl,
+      rejectionReason: expense.rejectionReason,
+    );
+  }
 
-  @override
-  int get hashCode => Object.hash(
-    id,
-    userId,
-    date,
-    amount,
-    category,
-    description,
-    status,
-    notes,
-    location,
-    paymentMethod,
-    approvedBy,
-    approvedAt,
-    isSynced,
-    hasReceipt,
-    receiptUrl,
-    rejectionReason,
-  );
+  Expense toEntity() {
+    return Expense(
+      id: id,
+      userId: userId,
+      date: date,
+      amount: amount,
+      category: category,
+      description: description,
+      status: status,
+      hasReceipt: hasReceipt,
+      notes: notes,
+      location: location,
+      paymentMethod: paymentMethod,
+      approvedBy: approvedBy,
+      approvedAt: approvedAt,
+      isSynced: isSynced,
+      receiptUrl: receiptUrl,
+      rejectionReason: rejectionReason,
+    );
+  }
 }
