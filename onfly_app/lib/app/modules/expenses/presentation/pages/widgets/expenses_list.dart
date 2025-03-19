@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_state.dart';
 
-import 'package:onfly_app/app/modules/expenses/presentation/widgets/expense_item.dart';
-import 'package:onfly_app/app/modules/expenses/presentation/widgets/expenses_total_card.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/pages/widgets/expense_item.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/pages/widgets/expenses_total_card.dart';
 import 'package:onfly_design_system/onfly_design_system.dart';
 
 class ExpensesList extends StatelessWidget {
