@@ -4,12 +4,11 @@ This project is a **corporate travel expense management system** built with **Fl
 
 ## 📱 Screenshots
 
-## 📱 Screenshots
-
-|                                                          |                                                          |                                                            |                                                            |
-| -------------------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
-| <img src="onfly_design_system/img/ss01.png" width="24%"> | <img src="onfly_design_system/img/ss02.png" width="24%"> | <img src="onfly_design_system/img/ss02_2.png" width="24%"> | <img src="onfly_design_system/img/ss02_3.png" width="24%"> |
-| <img src="onfly_design_system/img/ss03.png" width="24%"> | <img src="onfly_design_system/img/ss04.png" width="24%"> | <img src="onfly_design_system/img/ss04_2.png" width="24%"> | <img src="onfly_design_system/img/ss05.png" width="24%">   |
+|                                                            |                                                          |                                                            |
+| ---------------------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------- |
+| <img src="onfly_design_system/img/ss01.png" width="32%">   | <img src="onfly_design_system/img/ss02.png" width="32%"> | <img src="onfly_design_system/img/ss02_2.png" width="32%"> |
+| <img src="onfly_design_system/img/ss02_3.png" width="32%"> | <img src="onfly_design_system/img/ss03.png" width="32%"> | <img src="onfly_design_system/img/ss04.png" width="32%">   |
+| <img src="onfly_design_system/img/ss04_2.png" width="32%"> | <img src="onfly_design_system/img/ss05.png" width="32%"> |                                                            |
 
 ## 🔎 Overview
 
