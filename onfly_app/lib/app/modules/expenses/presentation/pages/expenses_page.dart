@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_state.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/pages/add/add_expense_page.dart';
-import 'package:onfly_app/app/modules/expenses/presentation/widgets/chart/chart_card_container.dart';
-import 'package:onfly_app/app/modules/expenses/presentation/widgets/expenses_header.dart';
-import 'package:onfly_app/app/modules/expenses/presentation/widgets/expenses_list.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/pages/widgets/chart/chart_card_container.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/pages/widgets/expenses_header.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/pages/widgets/expenses_list.dart';
 import 'package:onfly_design_system/onfly_design_system.dart';
 
 class ExpensesPage extends StatelessWidget {
@@ -53,12 +53,8 @@ class ExpensesPage extends StatelessWidget {
                             ),
                           ),
 
-                        if (state.status == ExpensesStatus.loading)
-                          const SizedBox(
-                            height: 300,
-                            child: Center(child: CircularProgressIndicator()),
-                          )
-                        else if (state.expenses.isNotEmpty)
+                        if (state.status != ExpensesStatus.loading &&
+                            state.expenses.isNotEmpty)
                           ChartCardContainer(
                             expensesByCategory: state.expensesByCategory,
                           ),

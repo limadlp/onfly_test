@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:onfly_app/app/modules/expenses/presentation/widgets/chart/chart_indicators.dart';
-import 'package:onfly_app/app/modules/expenses/presentation/widgets/chart/expenses_chart.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/pages/widgets/chart/chart_indicators.dart';
+import 'package:onfly_app/app/modules/expenses/presentation/pages/widgets/chart/expenses_chart.dart';
 import 'package:onfly_design_system/onfly_design_system.dart';
 
 class ChartCardContainer extends StatelessWidget {
