@@ -123,19 +123,6 @@ Para testar a aplicação, utilize as seguintes credenciais:
 
 ## 🚀 Funcionalidades Principais
 
-## 📱 Design System
-
-O **onfly_design_system** é um pacote Flutter reutilizável que pode ser usado em qualquer projeto Onfly, fornecendo:
-
-- **Tokens de Cor** (Primário, Secundário, Alerta, Sucesso, etc.)
-- **Tipografia** (Títulos, Parágrafos, etc.)
-- **Widgets** (Botões, Formulários, Cards)
-- **Suporte a Temas** (Modo Claro/Escuro)
-
-Isso garante uma **UI consistente** em todos os projetos da Onfly.
-
-## 📱 Aplicação Móvel
-
 ### 1. **Autenticação**
 
 - Os usuários podem **fazer login** com e-mail e senha. O token é salvo localmente e incluído em todas as requisições API.
@@ -159,6 +146,21 @@ Isso garante uma **UI consistente** em todos os projetos da Onfly.
 ### 5. **Gerenciamento de Viagens**
 
 - Exibe detalhes de voos, cartões de embarque, horários de check-in, etc.
+
+---
+
+## 📱 Design System
+
+O **onfly_design_system** é um pacote Flutter reutilizável que pode ser usado em qualquer projeto Onfly, fornecendo:
+
+- **Tokens de Cor** (Primário, Secundário, Alerta, Sucesso, etc.)
+- **Tipografia** (Títulos, Parágrafos, etc.)
+- **Widgets** (Botões, Formulários, Cards)
+- **Suporte a Temas** (Modo Claro/Escuro)
+
+Isso garante uma **UI consistente** em todos os projetos da Onfly.
+
+---
 
 ## 📡 Endpoints da API (Backend)
 
