@@ -3,12 +3,12 @@ import 'package:onfly_app/app/core/errors/failures.dart';
 import 'package:onfly_app/app/modules/expenses/domain/entities/expense.dart';
 import 'package:onfly_app/app/modules/expenses/domain/repositories/expenses_repository.dart';
 
-class GetExpensesUsecase {
+class AddExpenseUsecase {
   final ExpensesRepository repository;
 
-  GetExpensesUsecase(this.repository);
+  AddExpenseUsecase(this.repository);
 
-  Future<Either<Failure, List<Expense>>> call() async {
-    return repository.getExpenses();
+  Future<Either<Failure, Expense>> call(Expense expense) async {
+    return repository.addExpense(expense);
   }
 }

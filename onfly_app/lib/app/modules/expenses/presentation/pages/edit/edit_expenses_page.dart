@@ -126,34 +126,26 @@ class _EditExpensePageState extends State<EditExpensePage> {
       numericText = numericText.replaceAll('.', '').replaceAll(',', '.');
 
       final amountValue = double.parse(numericText);
-
+      // TODO: ajustar email
       final updatedExpense = _originalExpense.copyWith(
-        description:
-            _descriptionController.text != _originalExpense.description
-                ? _descriptionController.text
-                : null,
-        amount: amountValue != _originalExpense.amount ? amountValue : null,
-        date:
-            _selectedDate.toIso8601String() != _originalExpense.date
-                ? _selectedDate.toIso8601String()
-                : null,
-        category:
-            _selectedCategory != _originalExpense.category
-                ? _selectedCategory
-                : null,
-        notes:
-            _notesController.text.isNotEmpty &&
-                    _notesController.text != (_originalExpense.notes ?? '')
-                ? _notesController.text
-                : null,
-        hasReceipt: _receiptImage != null ? true : null,
-        receiptUrl:
-            _receiptImage != null
-                ? 'https://example.com/receipt.jpg'
-                : _originalExpense.receiptUrl,
+        userId: 'joe@onfly.com',
+        description: _descriptionController.text,
+        amount: amountValue,
+        date: _selectedDate.toIso8601String(),
+        category: _selectedCategory,
+        notes: _notesController.text,
+        // Manter o receiptUrl atual ou deixa null se não tinha
       );
 
       await widget.expensesCubit.updateExpense(updatedExpense);
+
+      // Depois do update, se tiver nova imagem
+      if (_receiptImage != null) {
+        await widget.expensesCubit.uploadReceiptUsecase(
+          updatedExpense.id,
+          _receiptImage!,
+        );
+      }
 
       if (mounted) {
         Navigator.of(context).pop();

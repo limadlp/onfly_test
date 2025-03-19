@@ -74,57 +74,64 @@ class _AddExpensePageState extends State<AddExpensePage> {
     }
   }
 
-  void _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isSubmitting = true;
-      });
+  Future<void> _submitForm() async {
+    if (!_formKey.currentState!.validate()) return;
 
-      try {
-        // Parse amount from BRL to cents
-        final amountText = _amountController.text.replaceAll('R\$', '').trim();
-        final amountValue = double.parse(
-          amountText.replaceAll('.', '').replaceAll(',', '.'),
+    setState(() => _isSubmitting = true);
+
+    try {
+      //TODO: Verificar email
+      // Exemplo: obtendo o e-mail do usuário logado
+      // final currentUserEmail = await someStorageService.getUserEmail();
+      // Para fins de exemplo fixo:
+      final currentUserEmail = 'joe@onfly.com';
+
+      // Parse amount
+      final rawAmountText = _amountController.text
+          .replaceAll('R\$', '')
+          .trim()
+          .replaceAll('.', '')
+          .replaceAll(',', '.');
+      final amountValue = double.parse(rawAmountText);
+
+      // Cria a despesa localmente
+      final newExpense = Expense(
+        id: '', // gerado no backend ou via DateTime.now().millisecondsSinceEpoch
+        userId: currentUserEmail, // <- ESSENCIAL para evitar 403
+        date: _selectedDate.toIso8601String(),
+        amount: amountValue,
+        category: _selectedCategory,
+        description: _descriptionController.text,
+        status: 'pending',
+        hasReceipt: _receiptImage != null,
+        notes: _notesController.text.isNotEmpty ? _notesController.text : null,
+        location: null,
+        paymentMethod: null,
+        approvedBy: null,
+        approvedAt: null,
+        rejectionReason: null,
+        isSynced: false,
+        receiptUrl: null, // o backend definirá
+      );
+
+      // Chama o cubit para salvar (e subir recibo, se houver)
+      await widget.expensesCubit.addExpenseWithReceipt(
+        expense: newExpense,
+        receiptFile: _receiptImage,
+      );
+
+      if (mounted) Navigator.of(context).pop();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao salvar despesa: $e'),
+            backgroundColor: OnflyColors.alert,
+          ),
         );
-
-        final newExpense = Expense(
-          id: '',
-          description: _descriptionController.text,
-          amount: amountValue,
-          date: _selectedDate.toString(),
-          category: _selectedCategory,
-          status: 'pending',
-          hasReceipt: _receiptImage != null,
-          notes:
-              _notesController.text.isNotEmpty ? _notesController.text : null,
-          // TODO: Change Image PATH
-          receiptUrl:
-              _receiptImage != null ? 'https://example.com/receipt.jpg' : null,
-          paymentMethod: '',
-          isSynced: false,
-          userId: '',
-        );
-
-        await widget.expensesCubit.addExpense(newExpense);
-        if (mounted) {
-          Navigator.of(context).pop();
-        }
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Erro ao salvar despesa: $e'),
-              backgroundColor: OnflyColors.alert,
-            ),
-          );
-        }
-      } finally {
-        if (mounted) {
-          setState(() {
-            _isSubmitting = false;
-          });
-        }
       }
+    } finally {
+      if (mounted) setState(() => _isSubmitting = false);
     }
   }
 
@@ -164,7 +171,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
               controller: _descriptionController,
@@ -172,14 +178,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
                 labelText: 'Descrição*',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: OnflyColors.gray200),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: OnflyColors.primary),
                 ),
               ),
               validator: (value) {
@@ -201,18 +199,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: OnflyColors.gray200,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: OnflyColors.primary,
-                        ),
-                      ),
                     ),
                     keyboardType: TextInputType.number,
                     validator: (value) {
@@ -233,12 +219,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: OnflyColors.gray200,
-                          ),
-                        ),
                         suffixIcon: const Icon(Icons.calendar_today, size: 20),
                       ),
                       child: Text(
@@ -257,14 +237,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: OnflyColors.gray200),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: OnflyColors.primary),
-                ),
               ),
               items:
                   _categories.map((category) {
@@ -275,9 +247,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                   }).toList(),
               onChanged: (value) {
                 if (value != null) {
-                  setState(() {
-                    _selectedCategory = value;
-                  });
+                  setState(() => _selectedCategory = value);
                 }
               },
             ),
@@ -288,14 +258,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
                 labelText: 'Observações',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: OnflyColors.gray200),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: OnflyColors.primary),
                 ),
               ),
               maxLines: 3,
@@ -341,7 +303,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                       ),
                       const SizedBox(height: 16),
                       const Text(
-                        'Arraste e solte seu comprovante ou clique para fazer upload',
+                        'Clique para enviar seu comprovante',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: OnflyColors.gray500,
@@ -382,9 +344,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                     right: 8,
                     child: InkWell(
                       onTap: () {
-                        setState(() {
-                          _receiptImage = null;
-                        });
+                        setState(() => _receiptImage = null);
                       },
                       child: Container(
                         padding: const EdgeInsets.all(4),

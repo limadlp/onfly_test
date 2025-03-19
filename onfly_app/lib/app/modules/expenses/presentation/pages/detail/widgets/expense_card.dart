@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onfly_app/app/core/extensions/number_formatter.dart';
+import 'package:onfly_app/app/core/utils/date_utils.dart';
 import 'package:onfly_app/app/modules/expenses/domain/entities/expense.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/pages/detail/widgets/info_item.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/pages/detail/widgets/status_badge.dart';
@@ -21,12 +22,19 @@ class ExpenseCard extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  expense.description,
-                  style: Theme.of(context).textTheme.titleLarge,
+                Expanded(
+                  child: Text(
+                    expense.description,
+                    style: Theme.of(context).textTheme.titleLarge,
+                    softWrap: true,
+                  ),
                 ),
-                StatusBadge(status: expense.status),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: StatusBadge(status: expense.status),
+                ),
               ],
             ),
             const SizedBox(height: 16),
@@ -38,7 +46,7 @@ class ExpenseCard extends StatelessWidget {
             InfoItem(
               icon: Icons.calendar_today,
               label: 'Data',
-              value: expense.date,
+              value: FormatUtils.formatDate(expense.date),
             ),
             const SizedBox(height: 16),
             InfoItem(

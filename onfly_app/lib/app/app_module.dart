@@ -18,8 +18,5 @@ class AppModule extends Module {
     r.module(AppRoutes.auth, module: AuthModule());
 
     r.module(AppRoutes.home, module: BaseModule(), guards: [AuthGuard()]);
-
-    // Definir a rota inicial para '/auth/'
-    //r.redirect(Modular.initialRoute, to: AppRoutes.auth);
   }
 }

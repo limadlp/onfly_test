@@ -1,68 +1,45 @@
 {
   "users": [
     {
-      "id": "1",
-      "name": "João Silva",
-      "email": "joao@email.com",
+      "id": "joe@onfly.com",
+      "name": "John Doe",
+      "email": "joe@onfly.com",
       "password": "123456"
     },
     {
-      "id": "2",
+      "id": "maria@email.com",
       "name": "Maria Oliveira",
       "email": "maria@email.com",
       "password": "senha123"
     },
     {
-      "id": "3",
+      "id": "carlos@email.com",
       "name": "Carlos Souza",
       "email": "carlos@email.com",
       "password": "abc123"
-    },
-    {
-      "id": "1742077962744",
-      "name": "John Doe",
-      "email": "john.doe@email.com",
-      "password": "securepassword"
     }
   ],
   "expenses": [
     {
-      "id": "101",
-      "userId": "1",
-      "date": "2025-03-10T12:00:00Z",
-      "amount": 150.5,
-      "category": "Transporte",
-      "description": "Táxi do aeroporto para o hotel",
-      "status": "pending",
-      "hasReceipt": false,
-      "notes": "",
-      "location": "",
-      "paymentMethod": "CASH",
-      "approvedBy": "",
-      "approvedAt": "",
-      "isSynced": true,
-      "receiptUrl": null
-    },
-    {
       "id": "105",
-      "userId": "1",
+      "userId": "joao@email.com",
       "date": "2025-03-13T14:20:00Z",
       "amount": 85.0,
       "category": "Alimentação",
-      "description": "Jantar com cliente",
+      "description": "Jantar com cliente no hotel",
       "status": "approved",
       "hasReceipt": true,
       "notes": "Reunião comercial",
       "location": "Restaurante Central",
       "paymentMethod": "CREDIT_CARD",
-      "approvedBy": "2",
+      "approvedBy": "maria@email.com",
       "approvedAt": "2025-03-14T09:00:00Z",
       "isSynced": true,
       "receiptUrl": null
     },
     {
       "id": "106",
-      "userId": "1",
+      "userId": "joe@onfly.com",
       "date": "2025-03-14T16:45:00Z",
       "amount": 320.0,
       "category": "Hospedagem",
@@ -72,15 +49,15 @@
       "notes": "Valor acima do permitido",
       "location": "Av. Principal, 123",
       "paymentMethod": "CREDIT_CARD",
-      "approvedBy": "2",
+      "approvedBy": "maria@email.com",
       "approvedAt": "2025-03-15T10:30:00Z",
       "isSynced": true,
       "receiptUrl": null
     },
     {
       "id": "107",
-      "userId": "1",
-      "date": "2025-03-15T09:15:00Z",
+      "userId": "joe@onfly.com",
+      "date": "2025-03-15T09:15:00.000Z",
       "amount": 45.0,
       "category": "Transporte",
       "description": "Uber para reunião",
@@ -91,29 +68,29 @@
       "paymentMethod": "CREDIT_CARD",
       "approvedBy": "",
       "approvedAt": "",
-      "isSynced": false,
-      "receiptUrl": null
+      "isSynced": true,
+      "receiptUrl": "https://example.com/receipt.jpg"
     },
     {
       "id": "102",
-      "userId": "1",
-      "date": "2025-03-11T08:30:00Z",
+      "userId": "joe@onfly.com",
+      "date": "2025-03-11T08:30:00.000Z",
       "amount": 45.9,
       "category": "Alimentação",
       "description": "Café da manhã no hotel",
       "status": "pending",
-      "hasReceipt": false,
+      "hasReceipt": true,
       "notes": "",
       "location": "",
       "paymentMethod": "CASH",
       "approvedBy": "",
       "approvedAt": "",
-      "isSynced": false,
-      "receiptUrl": null
+      "isSynced": true,
+      "receiptUrl": "https://example.com/receipt.jpg"
     },
     {
       "id": "108",
-      "userId": "1",
+      "userId": "joe@onfly.com",
       "date": "2025-03-16T11:30:00Z",
       "amount": 95.0,
       "category": "Alimentação",
@@ -130,7 +107,7 @@
     },
     {
       "id": "109",
-      "userId": "1",
+      "userId": "joe@onfly.com",
       "date": "2025-03-16T15:45:00Z",
       "amount": 60.0,
       "category": "Transporte",
@@ -147,7 +124,7 @@
     },
     {
       "id": "110",
-      "userId": "1",
+      "userId": "joe@onfly.com",
       "date": "2025-03-17T09:00:00Z",
       "amount": 280.0,
       "category": "Hospedagem",
@@ -164,7 +141,7 @@
     },
     {
       "id": "111",
-      "userId": "1",
+      "userId": "joe@onfly.com",
       "date": "2025-03-17T13:20:00Z",
       "amount": 75.5,
       "category": "Alimentação",
@@ -181,7 +158,7 @@
     },
     {
       "id": "112",
-      "userId": "1",
+      "userId": "joe@onfly.com",
       "date": "2025-03-18T08:15:00Z",
       "amount": 40.0,
       "category": "Transporte",
@@ -198,7 +175,7 @@
     },
     {
       "id": "113",
-      "userId": "1",
+      "userId": "joe@onfly.com",
       "date": "2025-03-18T12:45:00Z",
       "amount": 65.0,
       "category": "Alimentação",
@@ -215,7 +192,7 @@
     },
     {
       "id": "114",
-      "userId": "1",
+      "userId": "joe@onfly.com",
       "date": "2025-03-19T10:30:00Z",
       "amount": 55.0,
       "category": "Transporte",
@@ -232,7 +209,7 @@
     },
     {
       "id": "115",
-      "userId": "1",
+      "userId": "joe@onfly.com",
       "date": "2025-03-19T14:00:00Z",
       "amount": 180.0,
       "category": "Hospedagem",
@@ -249,7 +226,7 @@
     },
     {
       "id": "103",
-      "userId": "2",
+      "userId": "maria@email.com",
       "date": "2025-03-09T15:30:00Z",
       "amount": 75.0,
       "category": "Alimentação",
@@ -266,7 +243,7 @@
     },
     {
       "id": "104",
-      "userId": "3",
+      "userId": "carlos@email.com",
       "date": "2025-03-12T20:00:00Z",
       "amount": 200.0,
       "category": "Hospedagem",
@@ -283,7 +260,7 @@
     },
     {
       "id": "105",
-      "userId": "3",
+      "userId": "carlos@email.com",
       "date": "2025-03-13T14:45:00Z",
       "amount": 30.0,
       "category": "Transporte",
