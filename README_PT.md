@@ -1,6 +1,6 @@
 # Onfly Sistema de Gestão de Despesas
 
-Este projeto é um **sistema de gestão de despesas de viagens corporativas** desenvolvido com **Flutter** (abordagem offline-first), um pacote **Design System** e um **backend leve em Dart (Shelf)**. A arquitetura segue a **Clean Architecture** e utiliza **Drift** (SQLite) para armazenamento de dados offline, garantindo que os usuários possam gerenciar despesas mesmo sem conexão com a internet.
+Este projeto é um **sistema de gestão de despesas de viagens corporativas** desenvolvido com **Flutter** (abordagem offline-first), um package de **Design System** e um **backend leve em Dart (Shelf)**. A arquitetura segue a **Clean Architecture** e utiliza **Drift** (SQLite) para armazenamento de dados offline, garantindo que os usuários possam gerenciar despesas mesmo sem conexão com a internet.
 
 ## 📱 Capturas de Tela
 
