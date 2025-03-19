@@ -1,189 +1,219 @@
 # Onfly Expense Management System
 
-This project is a **corporate travel expense management system**, developed using **Flutter** with a focus on **offline-first functionality**. The system consists of three main components:
+This project is a **corporate travel expense management system** built with **Flutter** (offline-first approach), a **Design System** package, and a lightweight **Dart backend (Shelf)**. The architecture follows **Clean Architecture** and leverages **Drift** (SQLite) for offline data storage, ensuring users can manage expenses even without an active internet connection.
 
-- **📱 onfly_app** → Mobile application built with Flutter.
-- **🎨 onfly_design_system** → A standalone Design System package.
-- **🖥 onfly_server** → A simple Dart backend to support the app.
+## 🔎 Overview
 
-## 🚀 Features
+| Component               | Description                                                               |
+| ----------------------- | ------------------------------------------------------------------------- |
+| **onfly_app** (Flutter) | Mobile application managing corporate travel expenses (offline-first).    |
+| **onfly_design_system** | Standalone package containing reusable UI components, colors, and themes. |
+| **onfly_server** (Dart) | Simple Dart backend using Shelf to handle API requests.                   |
 
-### 🏗 **Architecture**
+### Key Features
 
-- **Flutter Modular** → For dependency injection and module separation.
-- **Cubit (Bloc)** → For state management.
-- **SQLite (Drift)** → Local storage for offline-first functionality.
-- **Dart Backend** → A lightweight backend using **Shelf** to handle API requests.
-- **Clean Architecture** → Well-organized project structure.
+- **Offline-First**: Data is stored locally (via **Drift**) and synced to the server when online.
+- **Clean Architecture**: Clear separation of **Data**, **Domain**, and **Presentation** layers.
+- **Dependency Injection**: Uses Flutter Modular.
+- **State Management**: Uses Cubit from the BLoC ecosystem.
+- **Image Upload & Compression**: Upload expense receipts in **Base64**, compressed via flutter_image_compress.
+- **Design System**: A consistent UI and brand styling from the **onfly_design_system** package.
+- **Lightweight Backend**: A Dart server that provides REST endpoints for **Expenses**, **Auth**, and more.
 
-### 📱 **Mobile App (onfly_app)**
+## 🏗 Architecture
 
-✅ **Login Screen** → Authenticate users via email and password.  
-✅ **Expense List** → Display, add, edit, and delete travel expenses.  
-✅ **Corporate Card Screen** → Show balance, brand, and transactions.  
-✅ **Travel Management** → Show travel details (boarding pass, flight time, airline, airport).  
-✅ **Offline-First** → Works without internet, syncing data when online.  
-✅ **Reports & Graphs** → Visualize expenses with filters.  
-✅ **Dark & Light Theme** → Following Onfly’s Style Guide.
-
-### 🎨 **Design System (onfly_design_system)**
-
-✅ **Color Tokens** → Primary, Secondary, Success, Alert, Background.  
-✅ **Typography** → Based on Poppins font.  
-✅ **Buttons** → Primary, Success, Alert, Disabled (Filled, Outline, Text).  
-✅ **Inputs & Fields** → Text fields, password fields, dropdowns.  
-✅ **Cards & Lists** → Used for expense tracking.  
-✅ **Tabs, Switches, Tooltips, and Status Components**.  
-✅ **Light & Dark Mode Support**.
-
-### 🖥 **Backend Server (onfly_server)**
-
-✅ **Built with Dart (Shelf framework)**.  
-✅ **Handles Authentication (mock login system)**.  
-✅ **Provides API endpoints for expenses & travel management**.  
-✅ **Simulates synchronization for offline-first functionality**.
-
----
-
-## 📂 Project Structure
+This project follows **Clean Architecture**:
 
 ```
+Domain
+┣ Entities (Expense, etc.)
+┣ UseCases (AddExpense, GetExpenses, etc.)
+┗ Repositories (Interfaces)
 
-/onfly_repo
-├── /onfly_app # Flutter mobile app
-├── /onfly_design_system # Standalone Design System package
-├── /onfly_server # Simple Dart backend (Shelf)
-├── README.md # Project documentation
-└── .gitignore # Git ignore settings
+Data
+┣ Models (ExpenseModel)
+┣ DataSources (Remote, Local/Drift)
+┗ Repositories Implementations
 
+Presentation
+┣ Cubit (ExpensesCubit)
+┗ UI Pages (ExpensesPage, etc.)
 ```
 
----
+### Offline-First Flow
 
-## 🛠 Setup & Installation
+1. **Local Database (Drift)** → All expenses are stored locally in an SQLite DB.
+2. **Remote Sync** → Whenever the app starts or a CRUD operation occurs, the local DB is updated and an attempt is made to sync with the remote server.
+3. **Conflict Resolution (Simple)** → The project includes a simple method (`syncExpenses`) to push unsynced data to the server and then fetch the latest from the server to update the local database.
 
-### 1️⃣ **Clone the repository**
+## 📂 Repository Structure
 
-```sh
+```
+onfly_repo
+├── onfly_app            # The Flutter mobile application
+├── onfly_design_system  # Standalone design system package
+├── onfly_server         # Shelf-based Dart backend
+├── README.md            # This documentation
+└── .gitignore
+```
+
+## 🛠️ Installation & Setup
+
+1. **Clone the repository:**
+
+```bash
 git clone https://github.com/your-username/onfly_repo.git
 cd onfly_repo
 ```
 
-### 2️⃣ **Backend Setup (onfly_server)**
+2. **Backend Setup (`onfly_server`):**
 
-```sh
+```bash
 cd onfly_server
 dart pub get
 dart run bin/server.dart
 ```
 
-- The backend runs on **localhost:8080**.
+- The backend will run on **localhost:5000** (or the configured port).
 
-### 3️⃣ **Design System Setup (onfly_design_system)**
+3. **Design System Setup (`onfly_design_system`):**
 
-```sh
+```bash
 cd onfly_design_system
 dart pub get
 ```
 
-### 4️⃣ **Mobile App Setup (onfly_app)**
+- This package can be imported by the app or any Flutter project needing consistent Onfly branding.
 
-```sh
+4. **Mobile App Setup (`onfly_app`):**
+
+```bash
 cd onfly_app
 flutter pub get
 flutter run
 ```
 
----
+- Make sure you have a device/emulator running.
 
-## 🚦 API Endpoints (onfly_server)
+## 🚀 Main Functionalities
 
-| Method | Endpoint           | Description                  |
-| ------ | ------------------ | ---------------------------- |
-| `POST` | `/login`           | User authentication          |
-| `GET`  | `/expenses`        | Fetch expense list           |
-| `POST` | `/expenses`        | Add a new expense            |
-| `GET`  | `/corporate-card`  | Fetch corporate card details |
-| `GET`  | `/travel-schedule` | Fetch travel schedule        |
+### 1. **Authentication**
 
----
+- Users can **sign in** via email and password. The token is saved locally and included in all API requests.
 
-## 🛠 Technologies Used
+### 2. **Expense Management**
 
-| Technology          | Purpose                                       |
-| ------------------- | --------------------------------------------- |
-| **Flutter**         | Mobile app development                        |
-| **Dart**            | Backend and mobile development                |
-| **SQLite (Drift)**  | Local storage for offline-first functionality |
-| **Flutter Modular** | Dependency injection & navigation             |
-| **Cubit (Bloc)**    | State management                              |
-| **Shelf**           | Lightweight Dart backend                      |
+- **List Expenses**: Shows a list of corporate travel expenses, stored **offline-first** in Drift.
+- **Add/Edit/Delete Expenses**: Interacts with local DB and syncs changes with the server.
+- **Expense Filters & Charts**: Filter by status and category; generate charts to visualize spending patterns.
 
----
+### 3. **Upload Receipts**
 
-## ✅ Best Practices Followed
+- Users can attach receipts to an expense by **picking an image** from the gallery or camera.
+- The image is **compressed** (using flutter_image_compress) and converted to Base64.
+- A **POST** request is sent to `/expenses/upload`, updating the `receiptUrl` on the server.
 
-- **Separation of concerns** → The Design System is modular and can be reused.
-- **Scalability** → The backend is structured for future improvements.
-- **Offline-first** → Users can access expense data without an internet connection.
-- **Automated Testing** → Unit and integration tests for stability.
+### 4. **Corporate Card**
 
----
+- Displays the **corporate card** details and recent transactions.
 
-# 🧪 Testing Guide
+### 5. **Travel Management**
 
-This project follows the **Clean Architecture** principles and uses **Flutter Modular** for dependency injection. Our testing strategy ensures that each layer is properly tested, avoiding tight coupling between components.
+- Shows flight details, boarding passes, check-in times, etc.
 
-## 🔹 What is Tested?
+## 📡 API Endpoints (Backend)
 
-We use **unit tests** to validate the correctness of our application's core logic. The following table summarizes the **Clean Architecture layers** and what we test in each one:
+Below is an overview of the key endpoints. For full details, see the `onfly_server` code.
 
-| **Layer**                    | **What is tested?**                                         |
-| ---------------------------- | ----------------------------------------------------------- |
-| **Data (Datasource)**        | Ensures that API calls return the expected data             |
-| **Domain (UseCases)**        | Validates that business logic is correctly executed         |
-| **Repository**               | Checks if repositories correctly interact with datasources  |
-| **Cubit (State Management)** | Verifies if states are correctly emitted during operations  |
-| **UI (Optional)**            | Ensures that UI components display correctly (widget tests) |
+| Method   | Endpoint           | Description                             |
+| -------- | ------------------ | --------------------------------------- |
+| `POST`   | `/auth/signin`     | User authentication (returns a JWT)     |
+| `POST`   | `/auth/signup`     | User registration                       |
+| `GET`    | `/expenses`        | Fetch all expenses for the current user |
+| `POST`   | `/expenses`        | Add a new expense                       |
+| `GET`    | `/expenses/<id>`   | Fetch a single expense (by ID)          |
+| `PUT`    | `/expenses/<id>`   | Update an existing expense              |
+| `DELETE` | `/expenses/<id>`   | Delete an expense                       |
+| `POST`   | `/expenses/upload` | Upload a receipt image                  |
 
-## 🛠️ Testing Tools
+## 🧑‍💻 Usage Example
 
-We use **Mocktail** to create test doubles instead of real dependencies. Unlike **Mockito**, Mocktail does **not require code generation** (`build_runner`), making it simpler and faster to use.
+### Adding a New Expense
 
-### 📌 Why **Mocktail**?
+1. **Offline**: The expense is inserted into the local Drift DB with `isSynced = false`.
+2. **Online Sync**: The system attempts to create the same expense on the backend. If successful, we update the local record to `isSynced = true`.
 
-- No need to run `flutter pub run build_runner build`
-- More flexible and easier to use than Mockito
-- Works perfectly with **Flutter Bloc** and **Cubit**
+```dart
+final newExpense = Expense(
+  id: '', // or any temp ID
+  userId: currentUserEmail,
+  date: DateTime.now(),
+  amount: 123.45,
+  category: 'Meals',
+  description: 'Lunch with client',
+  status: 'pending',
+  hasReceipt: false,
+  isSynced: false,
+  // ... other fields ...
+);
+await expensesCubit.addExpense(newExpense); // triggers sync
+```
 
-## 🏃 Running the Tests
+## ⏱ Synchronization Logic
 
-To execute the tests, simply run:
+A `syncExpenses()` method in the Repository tries to:
+
+1. **Find unsynced expenses** (`isSynced = false`) in the local DB.
+2. **Upload or update** them remotely (depending on whether they exist in the server).
+3. **Fetch** the updated list from the server and re-save them locally to ensure data consistency.
+
+## 📱 Design System
+
+The **onfly_design_system** package provides:
+
+- **Color tokens** (Primary, Secondary, Alert, Success, etc.)
+- **Typography** (Headings, Paragraphs, etc.)
+- **Widgets** (Buttons, Forms, Cards)
+- **Theme support** (Light/Dark mode)
+
+This ensures a **consistent** UI across all Onfly projects.
+
+## 🧪 Testing Guide
+
+### Testing Layers
+
+| Layer                    | What is Tested                            |
+| ------------------------ | ----------------------------------------- |
+| **Domain (UseCases)**    | Business logic (AddExpense, GetExpenses)  |
+| **Data (DataSources)**   | API & DB operations (remote/local)        |
+| **Repositories**         | Proper integration between Domain & Data  |
+| **Presentation (Cubit)** | State changes, input handling             |
+| **UI (Widgets)**         | Optional: screen rendering & interactions |
+
+### Running Tests
 
 ```bash
+cd onfly_app
 flutter test
-This will run all unit tests and verify if the code is working as expected.
+```
 
----
+Tests typically use **Mocktail** (or Mockito/other) to mock out data sources and verify logic in isolation.
 
-## 👥 Contributors
+## 🤝 Contributing
 
-- **[Dan Lima]** - Dart/Flutter Developer
+1. **Fork** the repo.
+2. **Create** a feature branch (`git checkout -b feature/yourFeature`).
+3. **Commit** changes (`git commit -am 'Add new feature'`).
+4. **Push** to the branch (`git push origin feature/yourFeature`).
+5. **Open** a Pull Request.
 
----
+## 👥 Authors & Maintainers
+
+- **Dan Lima** (Flutter / Dart Developer)
+  <dlplima@hotmail.com>
+
+Feel free to open issues or send pull requests to improve the project.
 
 ## 📜 License
 
-This project is licensed under the **MIT License**.
-
----
-
-## 📩 Contact
-
-For questions or support, reach out to **dlplima@hotmail.com**.
-
-```
-
-```
-
-```
+This project is licensed under the MIT License.

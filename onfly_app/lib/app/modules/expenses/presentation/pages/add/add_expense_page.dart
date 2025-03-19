@@ -7,10 +7,6 @@ import 'package:onfly_app/app/modules/expenses/domain/entities/expense.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:onfly_design_system/onfly_design_system.dart';
 
-// Exemplo: supomos que você tem um StorageService que fornece o e-mail do usuário
-// Ajuste para a implementação real que você usa
-// import 'package:onfly_app/app/core/storage/storage_service.dart';
-
 class AddExpensePage extends StatefulWidget {
   final ExpensesCubit expensesCubit;
   const AddExpensePage({super.key, required this.expensesCubit});

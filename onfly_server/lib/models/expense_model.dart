@@ -1,19 +1,20 @@
 class ExpenseModel {
   final String id;
   final String userId;
-  final DateTime date;
+  final String date;
   final double amount;
   final String category;
   final String description;
   final String status;
-  final bool hasReceipt;
-  final String notes;
-  final String location;
-  final String paymentMethod;
-  final String approvedBy;
-  final String approvedAt;
+  final String? notes;
+  final String? location;
+  final String? paymentMethod;
+  final String? approvedBy;
+  final String? approvedAt;
+  final String? rejectionReason;
   final bool isSynced;
-  final String? receiptUrl; // Permitindo ser nulo
+  final bool hasReceipt;
+  final String? receiptUrl;
 
   ExpenseModel({
     required this.id,
@@ -23,21 +24,22 @@ class ExpenseModel {
     required this.category,
     required this.description,
     required this.status,
-    required this.hasReceipt,
-    required this.notes,
-    required this.location,
-    required this.paymentMethod,
-    required this.approvedBy,
-    required this.approvedAt,
+    this.notes,
+    this.location,
+    this.paymentMethod,
+    this.approvedBy,
+    this.approvedAt,
+    this.rejectionReason,
     required this.isSynced,
-    this.receiptUrl, // Campo opcional
+    required this.hasReceipt,
+    this.receiptUrl,
   });
 
   factory ExpenseModel.fromJson(Map<String, dynamic> json) {
     return ExpenseModel(
       id: json['id'] as String,
       userId: json['userId'] as String,
-      date: DateTime.parse(json['date'] as String),
+      date: json['date'] as String,
       amount: (json['amount'] as num).toDouble(),
       category: json['category'] as String,
       description: json['description'] as String,
@@ -57,7 +59,7 @@ class ExpenseModel {
     return {
       'id': id,
       'userId': userId,
-      'date': date.toIso8601String(),
+      'date': date,
       'amount': amount,
       'category': category,
       'description': description,
