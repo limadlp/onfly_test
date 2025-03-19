@@ -4,12 +4,14 @@ This project is a **corporate travel expense management system** built with **Fl
 
 ## 📱 Screenshots
 
-<img src="onfly_design_system/img/ss01.png" width="50%">
-<img src="onfly_design_system/img/ss02.png" width="50%">
-<img src="onfly_design_system/img/ss02_2.png" width="50%">
-<img src="onfly_design_system/img/ss03.png" width="50%">
-<img src="onfly_design_system/img/ss04.png" width="50%">
-<img src="onfly_design_system/img/ss05.png" width="50%">
+<img src="onfly_design_system/img/ss01.png" width="25%" style="display: inline-block">
+<img src="onfly_design_system/img/ss02.png" width="25%" style="display: inline-block">
+<img src="onfly_design_system/img/ss02_2.png" width="25%" style="display: inline-block">
+<img src="onfly_design_system/img/ss02_3.png" width="25%" style="display: inline-block">
+<img src="onfly_design_system/img/ss03.png" width="25%" style="display: inline-block">
+<img src="onfly_design_system/img/ss04.png" width="25%" style="display: inline-block">
+<img src="onfly_design_system/img/ss04_2.png" width="25%" style="display: inline-block">
+<img src="onfly_design_system/img/ss05.png" width="25%" style="display: inline-block">
 
 ## 🔎 Overview
 
@@ -112,6 +114,13 @@ cd onfly_app
 flutter pub get
 flutter run
 ```
+
+### Test Credentials
+
+To test the application, use the following credentials:
+
+- **Email**: user@onfly.com
+- **Password**: 123456
 
 - Make sure you have a device/emulator running.
 
