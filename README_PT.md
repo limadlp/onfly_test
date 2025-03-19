@@ -33,27 +33,27 @@ Este projeto é um **sistema de gestão de despesas de viagens corporativas** de
 Este projeto segue **Clean Architecture** para o app Flutter e **MVC** para o backend Dart:
 
 ```
-Domínio
-┣ Entidades (Expense, etc.)
-┣ Casos de Uso (AddExpense, GetExpenses, etc.)
-┗ Repositórios (Interfaces)
+Domain
+┣ Entities (Expense, etc.)
+┣ UseCases (AddExpense, GetExpenses, etc.)
+┗ Repositories (Interfaces)
 
-Dados
-┣ Modelos (ExpenseModel)
-┣ Fontes de Dados (Remoto, Local/Drift)
-┗ Implementações de Repositórios
+Data
+┣ Models (ExpenseModel)
+┣ DataSources (Remote, Local/Drift)
+┗ Repositories Implementations
 
-Apresentação
+Presentation
 ┣ Cubit (ExpensesCubit)
-┗ Páginas de UI (ExpensesPage, etc.)
+┗ UI Pages (ExpensesPage, etc.)
 ```
 
 ```
 Backend (MVC)
-┣ Controladores (Auth, Expense)
-┣ Modelos
-┣ Repositórios
-┣ Serviços
+┣ Controllers (Auth, Expense)
+┣ Models
+┣ Repositories
+┣ Services
 ┣ Utils
 ┣ routes.dart
 ┗ bin/main.dart
