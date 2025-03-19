@@ -1,8 +1,14 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+
 class ApiUrl {
   static String get baseUrl {
     const apiPort = '5000';
+
+    if (kIsWeb) {
+      return 'http://localhost:$apiPort';
+    }
 
     if (Platform.isAndroid) {
       return 'http://10.0.2.2:$apiPort'; // Android Emulator

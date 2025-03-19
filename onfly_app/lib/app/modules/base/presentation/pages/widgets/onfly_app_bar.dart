@@ -12,10 +12,14 @@ class OnflyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text('Onfly', style: OnflyTypography.titleXL),
+      title: Image.asset(
+        'assets/images/main-logo.png',
+        height: 48,
+        fit: BoxFit.contain,
+      ),
       actions: [
         IconButton(
-          icon: const Icon(Icons.brightness_4),
+          icon: const Icon(Icons.brightness_4, color: OnflyColors.primary),
           onPressed: () {
             BlocProvider.of<ThemeCubit>(context, listen: false).toggleTheme();
           },
@@ -24,14 +28,14 @@ class OnflyAppBar extends StatelessWidget implements PreferredSizeWidget {
           padding: const EdgeInsets.symmetric(
             horizontal: OnflySpacings.buttonPaddingHorizontal,
           ),
-          icon: const Icon(Icons.account_circle),
+          icon: const Icon(Icons.account_circle, color: OnflyColors.primary),
           itemBuilder:
               (context) => [
                 const PopupMenuItem(
                   value: 'signout',
                   child: Row(
                     children: [
-                      Icon(Icons.logout),
+                      Icon(Icons.logout, color: OnflyColors.primary),
                       SizedBox(width: 8),
                       Text('Logout'),
                     ],
