@@ -184,6 +184,28 @@ A aplicação utiliza um sistema de armazenamento simples baseado em arquivos:
 - **Banco de Dados do Backend**: Para simplicidade, um arquivo JSON localizado em `storage/database.json` armazena todos os dados da aplicação.
 - **Recibos**: As imagens dos recibos são armazenadas no diretório `storage/receipts`.
 
+---
+
+## 🧪 Guia de Testes
+
+### Camadas de Teste
+
+| Camada                   | O que é Testado                             |
+| ------------------------ | ------------------------------------------- |
+| **Domain (UseCases)**    | Lógica de negócio (AddExpense, GetExpenses) |
+| **Data (DataSources)**   | Operações de API e BD (remoto/local)        |
+| **Repositories**         | Integração adequada entre Domain e Data     |
+| **Presentation (Cubit)** | Mudanças de estado, manipulação de entrada  |
+
+### Executando os Testes
+
+```bash
+cd onfly_app
+flutter test
+```
+
+---
+
 ## 👥 Autores e Mantenedores
 
 - **Dan Lima** (Flutter / Dart Developer)  

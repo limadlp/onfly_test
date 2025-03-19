@@ -189,21 +189,6 @@ The application uses a simple file-based storage system:
 
 This simple structure makes it easy to manage and backup data locally.
 
-## 🧑‍💻 Usage Example
-
-### Adding a New Expense
-
-1. **Offline**: The expense is inserted into the local Drift DB with `isSynced = false`.
-2. **Online Sync**: The system attempts to create the same expense on the backend. If successful, we update the local record to `isSynced = true`.
-
-## ⏱ Synchronization Logic
-
-A `syncExpenses()` method in the Repository tries to:
-
-1. **Find unsynced expenses** (`isSynced = false`) in the local DB.
-2. **Upload or update** them remotely (depending on whether they exist in the server).
-3. **Fetch** the updated list from the server and re-save them locally to ensure data consistency.
-
 ## 🧪 Testing Guide
 
 ### Testing Layers
@@ -221,6 +206,8 @@ A `syncExpenses()` method in the Repository tries to:
 cd onfly_app
 flutter test
 ```
+
+---
 
 ## 👥 Authors & Maintainers
 
