@@ -126,7 +126,7 @@ class _EditExpensePageState extends State<EditExpensePage> {
       numericText = numericText.replaceAll('.', '').replaceAll(',', '.');
 
       final amountValue = double.parse(numericText);
-      // TODO: ajustar email
+      // TODO: Ajustar email
       final updatedExpense = _originalExpense.copyWith(
         userId: 'joe@onfly.com',
         description: _descriptionController.text,
@@ -134,12 +134,10 @@ class _EditExpensePageState extends State<EditExpensePage> {
         date: _selectedDate.toIso8601String(),
         category: _selectedCategory,
         notes: _notesController.text,
-        // Manter o receiptUrl atual ou deixa null se não tinha
       );
 
       await widget.expensesCubit.updateExpense(updatedExpense);
 
-      // Depois do update, se tiver nova imagem
       if (_receiptImage != null) {
         await widget.expensesCubit.uploadReceiptUsecase(
           updatedExpense.id,

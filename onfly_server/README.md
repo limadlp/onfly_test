@@ -19,7 +19,7 @@ This is a **very simple backend** built with **Dart Shelf**, created solely to a
 ```
 📂 onfly_server/
 │── 📂 bin/
-│   ├── onfly_server.dart       # Main server entry point
+│   ├── main.dart       # Main server entry point
 │── 📂 lib/
 │   ├── 📂 core/
 │   │   ├── database_helper.dart  # Handles JSON-based database
@@ -34,6 +34,11 @@ This is a **very simple backend** built with **Dart Shelf**, created solely to a
 ```
 
 ## ⚙️ Installation & Setup
+
+### **Requirements**
+
+- Dart SDK 3.7.0
+- Flutter SDK 3.29.1
 
 ### **1️⃣ Install Dart (if not installed)**
 
@@ -79,7 +84,7 @@ Create the `storage/database.json` file if it does not exist, and add sample dat
 ### **5️⃣ Run the server**
 
 ```bash
-dart run bin/onfly_server.dart
+dart run bin/main.dart
 ```
 
 ### **6️⃣ API is now running on**

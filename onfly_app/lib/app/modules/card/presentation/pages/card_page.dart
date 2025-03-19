@@ -18,7 +18,7 @@ class CardPage extends StatelessWidget {
             const SizedBox(height: 16),
             const CreditCard(
               cardNumber: '•••• •••• •••• 4242',
-              cardholderName: 'JOHN DOE',
+              cardholderName: 'USER TEST',
               expiryDate: '12/25',
               cardType: 'mastercard',
             ),

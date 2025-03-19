@@ -21,24 +21,28 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
   @override
   Future<Either<Failure, List<Expense>>> getExpenses() async {
     try {
-      // 1) Get local data
       final localExpenses = await localDataSource.getAllExpenses();
       final localEntities = localExpenses.map((e) => e.toEntity()).toList();
 
-      // 2) Try to get remote data
       final remoteResult = await remoteDataSource.getExpenses();
-      return remoteResult.fold(
-        // If fails, return local data
-        (failure) => Right(localEntities),
-        (remoteExpenses) async {
-          // If success, upsert into local db and return
-          for (final exp in remoteExpenses) {
-            await localDataSource.upsertExpense(exp);
-          }
-          final updatedLocal = await localDataSource.getAllExpenses();
-          return Right(updatedLocal.map((e) => e.toEntity()).toList());
-        },
-      );
+      return remoteResult.fold((failure) => Right(localEntities), (
+        remoteExpenses,
+      ) async {
+        // Remove local records that don't exist on the server
+        final localIds = localExpenses.map((e) => e.id).toSet();
+        final remoteIds = remoteExpenses.map((e) => e.id).toSet();
+        final orphans = localIds.difference(remoteIds);
+
+        for (final id in orphans) {
+          await localDataSource.deleteExpense(id);
+        }
+
+        for (final exp in remoteExpenses) {
+          await localDataSource.upsertExpense(exp);
+        }
+        final updatedLocal = await localDataSource.getAllExpenses();
+        return Right(updatedLocal.map((e) => e.toEntity()).toList());
+      });
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -69,26 +73,28 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
   @override
   Future<Either<Failure, Expense>> addExpense(Expense expense) async {
     try {
-      // Insert locally with isSynced = false, generate an ID if needed
-      final tempId = DateTime.now().millisecondsSinceEpoch.toString();
+      final tempId =
+          expense.id.isEmpty
+              ? 'temp_${DateTime.now().millisecondsSinceEpoch}'
+              : expense.id;
+
       final expenseModel = ExpenseModel.fromEntity(
-        expense.copyWith(id: expense.id.isEmpty ? tempId : expense.id),
+        expense.copyWith(id: tempId, isSynced: false),
       );
+
       await localDataSource.upsertExpense(expenseModel);
 
-      // Try remote
       final remoteResult = await remoteDataSource.addExpense(expenseModel);
-      return remoteResult.fold(
-        (failure) {
-          return Right(expenseModel.toEntity());
-          // Return local if fails, but with isSynced = false
-        },
-        (remoteExpense) async {
-          // Update local with the remote data (id, etc)
-          await localDataSource.upsertExpense(remoteExpense);
-          return Right(remoteExpense.toEntity());
-        },
-      );
+      return remoteResult.fold((failure) => Right(expenseModel.toEntity()), (
+        remoteExpense,
+      ) async {
+        // Substitui o registro temporário
+        await localDataSource.deleteExpense(tempId);
+        await localDataSource.upsertExpense(
+          ExpenseModel.fromEntity(remoteExpense.copyWith(isSynced: true)),
+        );
+        return Right(remoteExpense.toEntity());
+      });
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -136,62 +142,50 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
     }
   }
 
-  // TODO: see
-
   @override
   Future<Either<Failure, void>> syncExpenses() async {
     try {
-      // 1) Busca todas as despesas locais (retorna List<ExpenseModel>)
       final allLocalModels = await localDataSource.getAllExpenses();
+      final unsynced = allLocalModels.where((m) => !m.isSynced).toList();
 
-      // 2) Filtra apenas as que não estão sincronizadas
-      final unsynced =
-          allLocalModels.where((m) => m.isSynced == false).toList();
-
-      // 3) Para cada despesa local não sincronizada, tenta sincronizar com o servidor
       for (final localModel in unsynced) {
-        // Verifica se essa despesa existe no backend (pelo ID) para decidir se é "add" ou "update"
-        final remoteGetResult = await remoteDataSource.getExpense(
-          localModel.id,
-        );
+        final isTemporary = localModel.id.startsWith('temp_');
 
-        await remoteGetResult.fold(
-          // Se não encontrou ou ocorreu alguma falha (ex: 404), tentamos fazer addExpense
-          (failure) async {
-            final addResult = await remoteDataSource.addExpense(localModel);
-            addResult.fold(
-              (failure) => null, // Se falhar novamente, deixamos como está
-              (addedModel) async {
-                // Se adicionou com sucesso, marca local como sincronizado
-                await localDataSource.upsertExpense(
-                  ExpenseModel.fromEntity(addedModel.copyWith(isSynced: true)),
-                );
-              },
+        if (isTemporary) {
+          // Processa como nova despesa
+          final addResult = await remoteDataSource.addExpense(localModel);
+          await addResult.fold((failure) => null, (remoteExpense) async {
+            await localDataSource.deleteExpense(localModel.id);
+            await localDataSource.upsertExpense(
+              ExpenseModel.fromEntity(remoteExpense.copyWith(isSynced: true)),
             );
-          },
-          // Se a despesa foi encontrada no backend, fazemos updateExpense
-          (foundRemoteModel) async {
-            final updateResult = await remoteDataSource.updateExpense(
-              localModel,
+          });
+        } else {
+          // Atualização normal
+          final updateResult = await remoteDataSource.updateExpense(localModel);
+          await updateResult.fold((failure) => null, (remoteExpense) async {
+            await localDataSource.upsertExpense(
+              ExpenseModel.fromEntity(remoteExpense.copyWith(isSynced: true)),
             );
-            updateResult.fold((failure) => null, (updatedModel) async {
-              // Se update ok, marca local como sincronizado
-              await localDataSource.upsertExpense(
-                ExpenseModel.fromEntity(updatedModel.copyWith(isSynced: true)),
-              );
-            });
-          },
-        );
+          });
+        }
       }
 
-      // 4) Ao final, chamamos getExpenses() remoto para atualizar nosso local
+      // Sincroniza inversa após upload
       final remoteResult = await remoteDataSource.getExpenses();
       return remoteResult.fold((failure) => Left(failure), (
         remoteExpenses,
       ) async {
-        // Sobrescreve local com a lista vinda do servidor
         for (final remoteModel in remoteExpenses) {
           await localDataSource.upsertExpense(remoteModel);
+        }
+        // Remove registros locais não presentes no servidor
+        final localExpenses = await localDataSource.getAllExpenses();
+        final remoteIds = remoteExpenses.map((e) => e.id).toSet();
+        for (final local in localExpenses) {
+          if (!remoteIds.contains(local.id)) {
+            await localDataSource.deleteExpense(local.id);
+          }
         }
         return const Right(null);
       });

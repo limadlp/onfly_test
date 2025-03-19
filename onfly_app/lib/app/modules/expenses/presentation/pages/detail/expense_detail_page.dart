@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onfly_app/app/modules/expenses/domain/entities/expense.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/cubit/expenses_cubit.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/pages/detail/widgets/expense_card.dart';
-import 'package:onfly_app/app/modules/expenses/presentation/pages/detail/widgets/receipt_card.dart';
 import 'package:onfly_app/app/modules/expenses/presentation/pages/edit/edit_expenses_page.dart';
 import 'package:onfly_design_system/onfly_design_system.dart';
 
@@ -95,7 +94,7 @@ class _ExpenseDetailPageState extends State<ExpenseDetailPage> {
               children: [
                 ExpenseCard(expense: expense),
                 const SizedBox(height: 16),
-                if (expense.hasReceipt) ReceiptCard(expense: expense),
+                //if (expense.hasReceipt) ReceiptCard(expense: expense),
                 const SizedBox(height: 16),
                 Row(
                   children: [

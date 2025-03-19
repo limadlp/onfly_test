@@ -80,11 +80,9 @@ class _AddExpensePageState extends State<AddExpensePage> {
     setState(() => _isSubmitting = true);
 
     try {
-      //TODO: Verificar email
-      // Exemplo: obtendo o e-mail do usuário logado
+      //TODO: Verificar email logado
       // final currentUserEmail = await someStorageService.getUserEmail();
-      // Para fins de exemplo fixo:
-      final currentUserEmail = 'joe@onfly.com';
+      final currentUserEmail = 'user@onfly.com';
 
       // Parse amount
       final rawAmountText = _amountController.text
@@ -96,8 +94,8 @@ class _AddExpensePageState extends State<AddExpensePage> {
 
       // Cria a despesa localmente
       final newExpense = Expense(
-        id: '', // gerado no backend ou via DateTime.now().millisecondsSinceEpoch
-        userId: currentUserEmail, // <- ESSENCIAL para evitar 403
+        id: '', // vai ser gerado no backend
+        userId: currentUserEmail,
         date: _selectedDate.toIso8601String(),
         amount: amountValue,
         category: _selectedCategory,
@@ -114,7 +112,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
         receiptUrl: null, // o backend definirá
       );
 
-      // Chama o cubit para salvar (e subir recibo, se houver)
       await widget.expensesCubit.addExpenseWithReceipt(
         expense: newExpense,
         receiptFile: _receiptImage,

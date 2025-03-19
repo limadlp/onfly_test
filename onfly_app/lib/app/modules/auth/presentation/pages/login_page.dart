@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:onfly_app/app/modules/auth/presentation/cubit/auth_cubit.dart';
 import 'package:onfly_app/app/modules/auth/presentation/cubit/auth_state.dart';
 import 'package:onfly_app/app/modules/auth/presentation/widgets/custom_input_field_widget.dart';
@@ -73,19 +72,18 @@ class _LoginFormState extends State<LoginForm> {
           Navigator.pushReplacementNamed(context, '/');
         }
         if (state is AuthError) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.message)));
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Login inválido!'),
+              backgroundColor: OnflyColors.alert,
+            ),
+          );
         }
       },
       builder: (context, state) {
         return Container(
-          decoration: const BoxDecoration(
-            //color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(32),
-              topRight: Radius.circular(32),
-            ),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
           ),
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -106,14 +104,7 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 const SizedBox(height: 16),
                 PasswordFieldWidget(controller: _passwordController),
-                const SizedBox(height: 16),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () => Modular.to.pushNamed('/reset-password'),
-                    child: const Text("Esqueceu sua senha?"),
-                  ),
-                ),
+
                 const SizedBox(height: 16),
                 state is AuthLoading
                     ? const CircularProgressIndicator()
