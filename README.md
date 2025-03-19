@@ -2,6 +2,15 @@
 
 This project is a **corporate travel expense management system** built with **Flutter** (offline-first approach), a **Design System** package, and a lightweight **Dart backend (Shelf)**. The architecture follows **Clean Architecture** and leverages **Drift** (SQLite) for offline data storage, ensuring users can manage expenses even without an active internet connection.
 
+## 📱 Screenshots
+
+<img src="onfly_design_system/img/ss01.png" width="50%">
+<img src="onfly_design_system/img/ss02.png" width="50%">
+<img src="onfly_design_system/img/ss02_2.png" width="50%">
+<img src="onfly_design_system/img/ss03.png" width="50%">
+<img src="onfly_design_system/img/ss04.png" width="50%">
+<img src="onfly_design_system/img/ss05.png" width="50%">
+
 ## 🔎 Overview
 
 | Component               | Description                                                               |
@@ -18,11 +27,11 @@ This project is a **corporate travel expense management system** built with **Fl
 - **State Management**: Uses Cubit from the BLoC ecosystem.
 - **Image Upload & Compression**: Upload expense receipts in **Base64**, compressed via flutter_image_compress.
 - **Design System**: A consistent UI and brand styling from the **onfly_design_system** package.
-- **Lightweight Backend**: A Dart server that provides REST endpoints for **Expenses**, **Auth**, and more.
+- **Lightweight Backend**: A Dart server with MVC architecture that provides REST endpoints for **Expenses**, **Auth**, and more.
 
 ## 🏗 Architecture
 
-This project follows **Clean Architecture**:
+This project follows **Clean Architecture** for the Flutter app and **MVC** for the Dart backend:
 
 ```
 Domain
@@ -38,6 +47,17 @@ Data
 Presentation
 ┣ Cubit (ExpensesCubit)
 ┗ UI Pages (ExpensesPage, etc.)
+```
+
+```
+Backend (MVC)
+┣ Controllers (Auth, Expense)
+┣ Models
+┣ Repositories
+┣ Services
+┣ Utils
+┣ routes.dart
+┗ bin/main.dart
 ```
 
 ### Offline-First Flow
@@ -71,7 +91,7 @@ cd onfly_repo
 ```bash
 cd onfly_server
 dart pub get
-dart run bin/server.dart
+dart run bin/main.dart
 ```
 
 - The backend will run on **localhost:5000** (or the configured port).
@@ -143,22 +163,6 @@ Below is an overview of the key endpoints. For full details, see the `onfly_serv
 1. **Offline**: The expense is inserted into the local Drift DB with `isSynced = false`.
 2. **Online Sync**: The system attempts to create the same expense on the backend. If successful, we update the local record to `isSynced = true`.
 
-```dart
-final newExpense = Expense(
-  id: '', // or any temp ID
-  userId: currentUserEmail,
-  date: DateTime.now().toString(),
-  amount: 123.45,
-  category: 'Meals',
-  description: 'Lunch with client',
-  status: 'pending',
-  hasReceipt: false,
-  isSynced: false,
-  // ... other fields ...
-);
-await expensesCubit.addExpense(newExpense); // triggers sync
-```
-
 ## ⏱ Synchronization Logic
 
 A `syncExpenses()` method in the Repository tries to:
@@ -182,13 +186,12 @@ This ensures a **consistent** UI across all Onfly projects.
 
 ### Testing Layers
 
-| Layer                    | What is Tested                            |
-| ------------------------ | ----------------------------------------- |
-| **Domain (UseCases)**    | Business logic (AddExpense, GetExpenses)  |
-| **Data (DataSources)**   | API & DB operations (remote/local)        |
-| **Repositories**         | Proper integration between Domain & Data  |
-| **Presentation (Cubit)** | State changes, input handling             |
-| **UI (Widgets)**         | Optional: screen rendering & interactions |
+| Layer                    | What is Tested                           |
+| ------------------------ | ---------------------------------------- |
+| **Domain (UseCases)**    | Business logic (AddExpense, GetExpenses) |
+| **Data (DataSources)**   | API & DB operations (remote/local)       |
+| **Repositories**         | Proper integration between Domain & Data |
+| **Presentation (Cubit)** | State changes, input handling            |
 
 ### Running Tests
 
@@ -197,23 +200,9 @@ cd onfly_app
 flutter test
 ```
 
-Tests typically use **Mocktail** (or Mockito/other) to mock out data sources and verify logic in isolation.
-
-## 🤝 Contributing
-
-1. **Fork** the repo.
-2. **Create** a feature branch (`git checkout -b feature/yourFeature`).
-3. **Commit** changes (`git commit -am 'Add new feature'`).
-4. **Push** to the branch (`git push origin feature/yourFeature`).
-5. **Open** a Pull Request.
+Tests typically use **Mocktail** to mock out data sources and verify logic in isolation.
 
 ## 👥 Authors & Maintainers
 
 - **Dan Lima** (Flutter / Dart Developer)
   <dlplima@hotmail.com>
-
-Feel free to open issues or send pull requests to improve the project.
-
-## 📜 License
-
-This project is licensed under the MIT License.

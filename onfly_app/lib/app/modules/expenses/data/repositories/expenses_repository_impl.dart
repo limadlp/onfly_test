@@ -88,7 +88,7 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
       return remoteResult.fold((failure) => Right(expenseModel.toEntity()), (
         remoteExpense,
       ) async {
-        // Substitui o registro temporário
+        // Replace temporary record
         await localDataSource.deleteExpense(tempId);
         await localDataSource.upsertExpense(
           ExpenseModel.fromEntity(remoteExpense.copyWith(isSynced: true)),
@@ -152,7 +152,7 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
         final isTemporary = localModel.id.startsWith('temp_');
 
         if (isTemporary) {
-          // Processa como nova despesa
+          // Process as new expense
           final addResult = await remoteDataSource.addExpense(localModel);
           await addResult.fold((failure) => null, (remoteExpense) async {
             await localDataSource.deleteExpense(localModel.id);
@@ -161,7 +161,7 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
             );
           });
         } else {
-          // Atualização normal
+          // Normal update
           final updateResult = await remoteDataSource.updateExpense(localModel);
           await updateResult.fold((failure) => null, (remoteExpense) async {
             await localDataSource.upsertExpense(
@@ -171,7 +171,7 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
         }
       }
 
-      // Sincroniza inversa após upload
+      // Reverse sync after upload
       final remoteResult = await remoteDataSource.getExpenses();
       return remoteResult.fold((failure) => Left(failure), (
         remoteExpenses,
@@ -179,7 +179,7 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
         for (final remoteModel in remoteExpenses) {
           await localDataSource.upsertExpense(remoteModel);
         }
-        // Remove registros locais não presentes no servidor
+        // Remove local records not present on server
         final localExpenses = await localDataSource.getAllExpenses();
         final remoteIds = remoteExpenses.map((e) => e.id).toSet();
         for (final local in localExpenses) {
@@ -200,38 +200,38 @@ class ExpensesRepositoryImpl implements ExpensesRepository {
     File imageFile,
   ) async {
     try {
-      // 1) Comprime a imagem com flutter_image_compress
+      // 1) Compress image with flutter_image_compress
       final compressedBytes = await FlutterImageCompress.compressWithFile(
         imageFile.path,
-        quality: 50, // Ajuste o quality conforme necessidade (0-100)
+        quality: 50, // Adjust quality as needed (0-100)
       );
       if (compressedBytes == null) {
         throw Exception("Failed to compress image");
       }
 
-      // Cria um arquivo temporário para enviar
+      // Create temporary file to send
       final tempDir = imageFile.parent;
       final compressedFilePath =
           '${tempDir.path}/compressed_${imageFile.path.split('/').last}';
       final compressedFile = File(compressedFilePath)
         ..writeAsBytesSync(compressedBytes);
 
-      // 2) Chama o remoteDatasource para fazer upload do arquivo (em base64 por dentro)
+      // 2) Call remoteDatasource to upload file (in base64 internally)
       final remoteResult = await remoteDataSource.uploadReceipt(
         expenseId,
         compressedFile,
       );
 
-      // 3) Trata o retorno. Se falhar, retorne a Failure
+      // 3) Handle return. If fails, return Failure
       return remoteResult.fold((failure) => Left(failure), (remoteUrl) async {
-        // 4) Se OK, atualiza local:
+        // 4) If OK, update local:
         final localExpense = await localDataSource.getExpense(expenseId);
         if (localExpense == null) {
-          // Se não existe localmente (?), só retorna a URL
+          // If doesn't exist locally (?), just return URL
           return Right(remoteUrl);
         }
 
-        // Atualiza o localExpense para hasReceipt = true, receiptUrl = remoteUrl
+        // Update localExpense to hasReceipt = true, receiptUrl = remoteUrl
         final updatedModel = localExpense.copyWith(
           hasReceipt: true,
           receiptUrl: remoteUrl,
