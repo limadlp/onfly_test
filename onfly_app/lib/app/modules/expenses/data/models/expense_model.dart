@@ -20,6 +20,8 @@ class ExpenseModel extends Expense {
     super.rejectionReason,
   });
 
+  bool get isTemporary => id.startsWith('temp_');
+
   factory ExpenseModel.fromJson(Map<String, dynamic> json) {
     return ExpenseModel(
       id: json['id'],

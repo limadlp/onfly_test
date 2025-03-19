@@ -11,6 +11,7 @@ import 'package:onfly_app/app/modules/auth/domain/usecases/signup_usecase.dart';
 import 'package:onfly_app/app/modules/auth/presentation/cubit/auth_cubit.dart';
 import 'package:onfly_app/app/modules/auth/presentation/pages/login_page.dart';
 
+// TODO: add signup page
 class AuthModule extends Module {
   @override
   List<Module> get imports => [CoreModule()];

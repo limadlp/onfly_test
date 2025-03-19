@@ -77,13 +77,8 @@ class ExpensesRemoteDatasourceImpl implements ExpensesRemoteDatasource {
         '${ApiUrl.expenses}/${expense.id}',
         data: expense.toJson(),
       );
-      // TODO: See
-      // The response might be just a message, so you can adapt as needed
-      // But let's assume it returns the updated model
-      // If the server only returns a message, you can do getExpense(...) again, for example
-      // For now we will just parse it as if it returned a JSON
-      final updatedExpense = await getExpense(expense.id);
-      return updatedExpense;
+      final updatedExpense = ExpenseModel.fromJson(response);
+      return Right(updatedExpense);
     } on ApiClientException catch (e) {
       return Left(ServerFailure('${e.statusCode}: ${e.message}'));
     } catch (e) {
