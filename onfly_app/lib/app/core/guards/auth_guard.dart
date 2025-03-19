@@ -1,4 +1,3 @@
-// TODO: Improve this guard
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:onfly_app/app/core/constants/app_routes.dart';
 import 'package:onfly_app/app/core/storage/storage_service.dart';
